@@ -3,15 +3,30 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./src/app.js",
+    "format": "prettier --write .",
+    "lint": "eslint ."
   },
   "dependencies": {
+    "@prisma/client": "^4.5.0",
+    "bcrypt": "^5.1.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "express-jwt": "^7.7.7",
     "http-errors": "~1.6.3",
-    "jade": "~1.11.0",
+    "module-alias": "^2.2.2",
     "morgan": "~1.9.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.26.0",
+    "eslint-config-prettier": "^8.5.0",
+    "prettier": "^2.7.1",
+    "prisma": "^4.5.0"
+  },
+  "_moduleAliases": {
+    "@controllers": "src/controllers",
+    "@routes": "src/routes",
+    "@utils": "src/utils"
   }
 }

@@ -6,24 +6,73 @@ datasource db {
   provider = "postgresql"
   url      = env("DB_URL")
 }
-////////////////////////////////
-// TODO: MONTU HAZ TU MAGIA AQUI
-////////////////////////////////
+
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  password String
+  name     String?
+  phone    String?
+  token    String?
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String
-  content   String?
-  published Boolean  @default(false)
-  viewCount Int      @default(0)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
+model Client {
+  id              Int       @id @default(autoincrement())
+  email           String    @unique
+  name            String?
+  phone           String?
+  password        String
+  token           String?
+  birthDate       DateTime?
+  address         String?
+  licenceValidity DateTime?
+  cars            Car[]
+}
+
+model Brand {
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
+  models Model[]
+}
+
+model Model {
+  id      Int    @id @default(autoincrement())
+  name    String
+  year    String
+  brand   Brand  @relation(fields: [brandId], references: [id])
+  brandId Int
+  cars    Car[]
+}
+
+model Car {
+  id                      Int       @id @default(autoincrement())
+  initialKilometers       Int
+  currentKilometers       Int?
+  geofenceRadius          Float     @default(150)
+  velocityLimit           Float     @default(20)
+  image                   String
+  description             String?
+  insurancePolicyValidity DateTime?
+  verificationValidity    DateTime?
+  circulationCardValidity DateTime
+  model                   Model     @relation(fields: [modelId], references: [id])
+  modelId                 Int
+  client                  Client    @relation(fields: [clientId], references: [id])
+  clientId                Int
+  gps                     Gps?
+}
+
+model Gps {
+  id          Int       @id @default(autoincrement())
+  alias       String    @unique
+  latitude    Float?
+  longitude   Float?
+  battery     Int?
+  date        DateTime?
+  altitude    Float?
+  velocity    Float?
+  orientation Float?
+  mtsError    Float?
+  car         Car       @relation(fields: [carId], references: [id])
+  carId       Int       @unique
 }
