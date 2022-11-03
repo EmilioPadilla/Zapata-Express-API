@@ -27,6 +27,7 @@
   "_moduleAliases": {
     "@controllers": "src/controllers",
     "@routes": "src/routes",
+    "@middlewares": "src/middlewares",
     "@utils": "src/utils"
   }
 }
