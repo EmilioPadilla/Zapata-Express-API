@@ -18,6 +18,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/users', router.userRoutes);
 
+app.use('/client', router.clientRoutes);
+
 // catch 404 and forward to error handler
 app.use(function (_req, _res, next) {
   next(createHttpError(404));
