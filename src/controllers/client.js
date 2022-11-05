@@ -49,7 +49,7 @@ const create = async (req, res, next) => {
         //Get id of client from user table
         name,
         email,
-        password: hash.hashItem(password),
+        password: await hash.hashItem(password),
         phone,
         birthDate: new Date(birthDate),
         address,
@@ -139,7 +139,7 @@ const updatePassword = async (req, res, next) => {
     const response = await prisma.client.update({
       where: { id },
       data: {
-        password: hash.hashItem(newPassword),
+        password: await hash.hashItem(newPassword),
       },
     });
 
