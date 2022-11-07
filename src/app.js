@@ -1,41 +1,32 @@
 require('module-alias/register');
 
+// Libraries
 const createHttpError = require('http-errors');
 const express = require('express');
-const path = require('path');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 
+// Import all routers
 const router = require('./routes');
 
+// Use Express
 const app = express();
 
+// Turn on modules
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/users', router.userRoutes);
-
-app.use('/client', router.clientRoutes);
-
+// Routers
+app.use('/api/users', router.userRoutes);
+app.use('/api/clients', router.clientRoutes); 
+app.use('/api/cars', router.carRoutes);
 app.use('/api/v1/gps', router.gpsRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (_req, _res, next) {
   next(createHttpError(404));
-});
-
-// error handler
-app.use(function (err, req, res) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
 });
 
 const server = app.listen(1337, () =>

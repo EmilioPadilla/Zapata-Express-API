@@ -56,7 +56,7 @@ model Car {
   circulationCardValidity DateTime
   model                   Model     @relation(fields: [modelId], references: [id])
   modelId                 Int
-  client                  Client    @relation(fields: [clientId], references: [id])
+  client                  Client?    @relation(fields: [clientId], references: [id])
   clientId                Int
   gps                     Gps?
 }
