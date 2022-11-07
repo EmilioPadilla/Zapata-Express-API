@@ -3,6 +3,6 @@ const gpsController = require('@controllers/gps');
 
 const router = express.Router();
 
-router.post('/api/v1/gps/api/gps', gpsController.recoverGpsCoordinates);
+router.post('/api/gps', gpsController.recoverGpsCoordinates);
 
 module.exports = router;
