@@ -17,11 +17,13 @@ const prisma = new prismaClient.PrismaClient();
 const getGpsCoordinates = async (_req, res, next) => {
 	try {
     //  a) Save lat, long, orient, vel in GPS table
-	// updateCoordinates(_req, res, next);
+    // TODO: Uncomment when seeders ready
+    // updateCoordinates(_req, res, next);
     //  b) Retrieve lat, long, orient from GPS to calculate
     // 		km traveled from GPS info
     //  c) Update Car.km by adding km calculated in b)
-	// calculateKmTraveled(_req, res, next);
+    // TODO: Uncomment when seeders ready
+    // calculateKmTraveled(_req, res, next);
 
     return res.json(_req.body);
   } catch (error) {
