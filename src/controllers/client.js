@@ -56,8 +56,7 @@ const create = async (req, res, next) => {
         licenceValidity: new Date(licenceValidity),
       },
     });
-    //console.log(new Date(birthDate).toLocaleDateString("en-GB")); formatear el date en js cambiar a en-US
-    //console.log(new Date(licenceValidity).toLocaleDateString("en-GB"));
+    
     return res.json(result);
   } catch (error) {
     return next(error);
@@ -128,7 +127,6 @@ const updatePassword = async (req, res, next) => {
     const client = await prisma.client.findUnique({
       where: { id },
     });
-    console.log(client.password);
     
     if (client == null) throw createHttpError[404]('No client found');
 
