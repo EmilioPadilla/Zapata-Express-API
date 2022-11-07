@@ -5,7 +5,7 @@ Back end repository for Zapata Corporation, made by One Unit
 Clone this repository:
 
 ```
-git clone git@github.com:prisma/prisma-examples.git --depth=1
+git clone https://github.com/EmilioPadilla/Zapata-Express-API.git
 ```
 
 Install npm dependencies:
@@ -17,7 +17,7 @@ npm install
 or 
 ```
 cd prisma-examples/javascript/rest-express
-yarn install 
+yarn 
 ```
 and also run this line
 ```
@@ -47,4 +47,4 @@ When `npx prisma migrate dev` is executed against a newly created database, seed
 npm run dev
 ```
 
-The server is now running on `http://localhost:3000`. You can send the API requests implemented in `index.js`, e.g. [`http://localhost:3000/feed`](http://localhost:3000/feed).
+The server is now running on `http://localhost:1337`. You can send the API requests implemented in `index.js`, e.g. [`http://localhost:1337`](http://localhost:1337).

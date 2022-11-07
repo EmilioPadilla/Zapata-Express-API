@@ -64,15 +64,16 @@ CREATE TABLE "Car" (
 -- CreateTable
 CREATE TABLE "Gps" (
     "id" SERIAL NOT NULL,
-    "alias" TEXT NOT NULL,
-    "latitude" DOUBLE PRECISION,
-    "longitude" DOUBLE PRECISION,
-    "battery" INTEGER,
-    "date" TIMESTAMP(3),
-    "altitude" DOUBLE PRECISION,
-    "velocity" DOUBLE PRECISION,
-    "orientation" DOUBLE PRECISION,
-    "mtsError" DOUBLE PRECISION,
+    "Alias" TEXT NOT NULL,
+    "Latitud" TEXT,
+    "Longitud" TEXT,
+    "Bateria" INTEGER,
+    "FechaDispositivo" TEXT,
+    "Altitud" DOUBLE PRECISION,
+    "Velocidad" DOUBLE PRECISION,
+    "Orientacion" DOUBLE PRECISION,
+    "ErrorMtsGps" DOUBLE PRECISION,
+    "NivelGsm" DOUBLE PRECISION,
     "carId" INTEGER NOT NULL,
 
     CONSTRAINT "Gps_pkey" PRIMARY KEY ("id")
@@ -88,7 +89,7 @@ CREATE UNIQUE INDEX "Client_email_key" ON "Client"("email");
 CREATE UNIQUE INDEX "Brand_name_key" ON "Brand"("name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Gps_alias_key" ON "Gps"("alias");
+CREATE UNIQUE INDEX "Gps_alias_key" ON "Gps"("Alias");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Gps_carId_key" ON "Gps"("carId");

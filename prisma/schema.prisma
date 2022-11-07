@@ -64,15 +64,16 @@ model Car {
 
 model Gps {
   id          Int       @id @default(autoincrement())
-  alias       String    @unique
-  latitude    Float?
-  longitude   Float?
-  battery     Int?
-  date        DateTime?
-  altitude    Float?
-  velocity    Float?
-  orientation Float?
-  mtsError    Float?
+  Alias       String    @unique
+  Latitud    String?
+  Longitud   String?
+  Bateria     Int?
+  FechaDispositivo        String?
+  Altitud    Float?
+  Velocidad    Float?
+  Orientacion Float?
+  ErrorMtsGps    Float?
+  NivelGsm      Float?
   car         Car       @relation(fields: [carId], references: [id])
   carId       Int       @unique
 }
