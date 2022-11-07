@@ -92,9 +92,9 @@ const get = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   try {
-    const { name, email, phone,birthDate,address,licenceValidity } = req.body;
+    const { name, email, phone, birthDate, address, licenceValidity } = req.body;
     const id = Number(req.params.id);
- 
+
     const client = await prisma.client.findUnique({
       where: { id },
     });
@@ -122,14 +122,14 @@ const update = async (req, res, next) => {
 const updatePassword = async (req, res, next) => {
   try {
     const { previousPassword, newPassword } = req.body;
-    console.log(previousPassword,newPassword);
+    console.log(previousPassword, newPassword);
     const id = Number(req.params.id);
 
     const client = await prisma.client.findUnique({
       where: { id },
     });
     console.log(client.password);
-    
+
     if (client == null) throw createHttpError[404]('No client found');
 
     const validPassword = await hash.validateItem(previousPassword, client.password);

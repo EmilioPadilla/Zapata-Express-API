@@ -2,7 +2,6 @@ require('module-alias/register');
 
 const createHttpError = require('http-errors');
 const express = require('express');
-const path = require('path');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 
@@ -14,10 +13,8 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/users', router.userRoutes);
-
 app.use('/client', router.clientRoutes);
 
 // catch 404 and forward to error handler

@@ -48,7 +48,7 @@ const create = async (req, res, next) => {
       data: {
         name,
         email,
-        password,
+        password: await hash.hashItem(password),
       },
     });
 

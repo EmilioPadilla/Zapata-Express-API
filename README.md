@@ -12,23 +12,30 @@ Install npm dependencies:
 
 ```
 cd prisma-examples/javascript/rest-express
-npm install 
+npm install
 ```
-or 
+
+or
+
 ```
 cd prisma-examples/javascript/rest-express
-yarn install 
+yarn install
 ```
+
 and also run this line
+
 ```
 npx prisma migrate dev --name init
 ```
+
 also make sure you have the .env on your root file
+
 ```
 DB_URL=postgresql://db_user:db_password@db_host:db_port/db_name
 JWT_SECRET=some_secret
 SALTROUNDS=10
 ```
+
 </details>
 
 ### 2. Create and seed the database
