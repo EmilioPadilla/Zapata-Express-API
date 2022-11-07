@@ -8,20 +8,20 @@ const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    const user = await prisma.user.findUnique({
+    const client = await prisma.client.findUnique({
       where: { email },
     });
 
-    if (user == null) throw createHttpError[403]('Invalid credentials');
+    if (client == null) throw createHttpError[403]('Invalid credentials');
 
-    const validPassword = await hash.validateItem(password, user.password);
+    const validPassword = await hash.validateItem(password, client.password);
 
     if (!validPassword) throw createHttpError[403]('Invalid credentials');
 
     // Create the access token with express jwt
     const accessToken = 'the token';
 
-    const response = await prisma.user.update({
+    const response = await prisma.client.update({
       where: { email },
       data: {
         token: accessToken,
@@ -36,22 +36,28 @@ const login = async (req, res, next) => {
 
 const create = async (req, res, next) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, phone, birthDate, address, licenceValidity } = req.body;
 
-    const user = await prisma.user.findUnique({
+    const client = await prisma.client.findUnique({
       where: { email },
     });
 
-    if (user != null) throw createHttpError[409]('Email already taken');
+    if (client != null) throw createHttpError[409]('Email already taken');
 
-    const result = await prisma.user.create({
+    const result = await prisma.client.create({
       data: {
+        //Get id of client from user table
         name,
         email,
-        password,
+        password: await hash.hashItem(password),
+        phone,
+        birthDate: new Date(birthDate),
+        address,
+        licenceValidity: new Date(licenceValidity),
       },
     });
-
+    //console.log(new Date(birthDate).toLocaleDateString("en-GB")); formatear el date en js cambiar a en-US
+    //console.log(new Date(licenceValidity).toLocaleDateString("en-GB"));
     return res.json(result);
   } catch (error) {
     return next(error);
@@ -60,9 +66,9 @@ const create = async (req, res, next) => {
 
 const getAll = async (_req, res, next) => {
   try {
-    const users = await prisma.user.findMany();
+    const clients = await prisma.client.findMany();
 
-    return res.json(users);
+    return res.json(clients);
   } catch (error) {
     return next(error);
   }
@@ -72,13 +78,13 @@ const get = async (req, res, next) => {
   try {
     const id = Number(req.params.id);
 
-    const user = await prisma.user.findUnique({
+    const client = await prisma.client.findUnique({
       where: { id },
     });
 
-    if (user == null) throw createHttpError[404]('No user found');
+    if (client == null) throw createHttpError[404]('No client found');
 
-    return res.json(user);
+    return res.json(client);
   } catch (error) {
     return next(error);
   }
@@ -86,21 +92,24 @@ const get = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   try {
-    const { name, email, phone } = req.body;
+    const { name, email, phone,birthDate,address,licenceValidity } = req.body;
     const id = Number(req.params.id);
-
-    const user = await prisma.user.findUnique({
+ 
+    const client = await prisma.client.findUnique({
       where: { id },
     });
 
-    if (user == null) throw createHttpError[404]('No user found');
+    if (client == null) throw createHttpError[404]('No client found');
 
-    const response = await prisma.user.update({
+    const response = await prisma.client.update({
       where: { id },
       data: {
         name,
         email,
         phone,
+        birthDate: new Date(birthDate),
+        address,
+        licenceValidity: new Date(licenceValidity),
       },
     });
 
@@ -113,19 +122,21 @@ const update = async (req, res, next) => {
 const updatePassword = async (req, res, next) => {
   try {
     const { previousPassword, newPassword } = req.body;
+    console.log(previousPassword,newPassword);
     const id = Number(req.params.id);
 
-    const user = await prisma.user.findUnique({
+    const client = await prisma.client.findUnique({
       where: { id },
     });
+    console.log(client.password);
+    
+    if (client == null) throw createHttpError[404]('No client found');
 
-    if (user == null) throw createHttpError[404]('No user found');
-
-    const validPassword = await hash.validateItem(previousPassword, user.password);
+    const validPassword = await hash.validateItem(previousPassword, client.password);
 
     if (!validPassword) throw createHttpError[401]('No matching password');
 
-    const response = await prisma.user.update({
+    const response = await prisma.client.update({
       where: { id },
       data: {
         password: await hash.hashItem(newPassword),
