@@ -10,7 +10,7 @@ node/
 node_modules/
 .next/
 .next/**
-*.env*
+*.env
 
 #build artifacts
 dist/
