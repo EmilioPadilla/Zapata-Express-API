@@ -46,8 +46,7 @@ CREATE TABLE "Model" (
 -- CreateTable
 CREATE TABLE "Car" (
     "id" SERIAL NOT NULL,
-    "initialKilometers" INTEGER NOT NULL,
-    "currentKilometers" INTEGER,
+    "currentKilometers" INTEGER NOT NULL DEFAULT 0,
     "geofenceRadius" DOUBLE PRECISION NOT NULL DEFAULT 150,
     "velocityLimit" DOUBLE PRECISION NOT NULL DEFAULT 20,
     "image" TEXT NOT NULL,
@@ -64,16 +63,11 @@ CREATE TABLE "Car" (
 -- CreateTable
 CREATE TABLE "Gps" (
     "id" SERIAL NOT NULL,
-    "Alias" TEXT NOT NULL,
-    "Latitud" TEXT,
-    "Longitud" TEXT,
-    "Bateria" INTEGER,
-    "FechaDispositivo" TEXT,
-    "Altitud" DOUBLE PRECISION,
-    "Velocidad" DOUBLE PRECISION,
-    "Orientacion" DOUBLE PRECISION,
-    "ErrorMtsGps" DOUBLE PRECISION,
-    "NivelGsm" DOUBLE PRECISION,
+    "alias" TEXT NOT NULL,
+    "latitude" DOUBLE PRECISION,
+    "longitude" DOUBLE PRECISION,
+    "orientation" DOUBLE PRECISION,
+    "velocity" DOUBLE PRECISION,
     "carId" INTEGER NOT NULL,
 
     CONSTRAINT "Gps_pkey" PRIMARY KEY ("id")
