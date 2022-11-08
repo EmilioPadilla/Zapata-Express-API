@@ -11,9 +11,9 @@ async function main() {
           name: 'Juan Pérez',
           phone: '7721234567',
           token: 'sacasdfaeqdas123',
-          role:{
+          role:{  
             create:{
-              type: 'cliente',
+              type: 'client',
             }
           }
         }
