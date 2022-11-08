@@ -22,16 +22,16 @@ app.use(cookieParser());
 app.use('/api/users', router.userRoutes);
 app.use('/api/clients', router.clientRoutes); 
 app.use('/api/cars', router.carRoutes);
+app.use('/api/v1/gps', router.gpsRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (_req, _res, next) {
   next(createHttpError(404));
 });
 
-// Start server
-const server = app.listen(8000, () =>
+const server = app.listen(1337, () =>
   console.log(`
-  🚀 Server ready at: http://localhost:8000`)
+  🚀 Server ready at: http://localhost:1337`)
 );
 
 module.exports = server;

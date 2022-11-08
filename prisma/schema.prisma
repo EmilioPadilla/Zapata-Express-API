@@ -7,46 +7,8 @@ datasource db {
   url      = env("DB_URL")
 }
 
-model User {
-  id       Int     @id @default(autoincrement())
-  email    String  @unique
-  password String
-  name     String?
-  phone    String?
-  token    String?
-}
-
-model Client {
-  id              Int       @id @default(autoincrement())
-  email           String    @unique
-  name            String?
-  phone           String?
-  password        String
-  token           String?
-  birthDate       DateTime?
-  address         String?
-  licenceValidity DateTime?
-  cars            Car[]
-}
-
-model Brand {
-  id     Int     @id @default(autoincrement())
-  name   String  @unique
-  models Model[]
-}
-
-model Model {
-  id      Int    @id @default(autoincrement())
-  name    String
-  year    String
-  brand   Brand  @relation(fields: [brandId], references: [id])
-  brandId Int
-  cars    Car[]
-}
-
 model Car {
   id                      Int       @id @default(autoincrement())
-  initialKilometers       Int
   currentKilometers       Int?
   geofenceRadius          Float     @default(150)
   velocityLimit           Float     @default(20)
@@ -60,6 +22,22 @@ model Car {
   client                  Client?    @relation(fields: [clientId], references: [id])
   clientId                Int
   gps                     Gps?
+  services CarHasService[]
+}
+
+model Model {
+  id      Int    @id @default(autoincrement())
+  name    String
+  year    String
+  brand   Brand  @relation(fields: [brandId], references: [id])
+  brandId Int
+  cars    Car[]
+}
+
+model Brand {
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
+  models Model[]
 }
 
 model Gps {
@@ -67,12 +45,118 @@ model Gps {
   alias       String    @unique
   latitude    Float?
   longitude   Float?
-  battery     Int?
-  date        DateTime?
-  altitude    Float?
-  velocity    Float?
   orientation Float?
-  mtsError    Float?
+  velocity    Float?
   car         Car       @relation(fields: [carId], references: [id])
   carId       Int       @unique
 }
+
+model User {
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  password String
+  name     String?
+  phone    String?
+  token    String?
+  role Role @relation(fields: [idRole], references: [id])
+  idRole Int
+  employees Employee[]
+  clients Client[]
+}
+
+model Client {
+  id              Int       
+  email           String    @unique
+  name            String?
+  phone           String?
+  password        String
+  token           String?
+  birthDate       DateTime?
+  address         String?
+  licenceValidity DateTime?
+  cars            Car[]
+  user User @relation(fields: [id], references: [id])
+  idSeller        Int
+  seller Seller @relation(fields: [idSeller], references: [idEmployee])
+  @@id([id])
+}
+
+ model Employee {
+idUser					  Int
+user User @relation(fields: [idUser], references: [id])	
+sellers Seller[]
+@@id([idUser])			
+ }
+
+ model Seller {
+idEmployee			  Int				
+employee Employee @relation(fields: [idEmployee], references: [idUser])
+clients Client[]
+@@id([idEmployee])
+ }
+
+ model Role {
+id							  Int 	@id @default(autoincrement())													
+type						  String
+users User[]				
+permits RoleHasPermit[]												
+ }
+
+ model Permit {
+id							  Int 	@id @default(autoincrement())																	
+name						  String												
+description			  String?
+roles RoleHasPermit[]																	
+ }
+
+ model Office {
+id							  Int 	@id @default(autoincrement())																	
+name						  String												
+address					  String				
+state						  String																		
+city						  String																						
+}
+
+ model Service {
+id		Int         @id
+types ServiceHasType[]
+cars CarHasService[]
+ }
+
+ model Type {
+id							  Int @id @default(autoincrement())																
+name						  String	
+services          ServiceHasType[]	
+
+ }
+
+ model CarHasService {
+idCar						Int	
+car Car @relation(fields: [idCar], references: [id])										
+idService				Int					
+service Service @relation( fields: [idService], references: [id])
+dateOfService		DateTime
+@@id([idCar,idService])
+ }
+
+ model ServiceHasType {
+idService					Int
+service  Service @relation(fields: [idService], references: [id])
+idType						Int
+type     Type    @relation(fields: [idType], references: [id])
+@@id([idService,idType])	
+ }
+
+
+ model RoleHasPermit {
+idRole						Int
+role     Role	  @relation(fields: [idRole], references: [id])										
+idPermit					Int					
+permit   Permit  @relation(fields: [idPermit], references: [id])						
+creation_date			DateTime @default(now())		 									
+update_date				DateTime @default(now())
+@@id([idPermit,idRole]) 		 																
+}
+
+
+
