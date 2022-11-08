@@ -30,5 +30,8 @@
     "@routes": "src/routes",
     "@middlewares": "src/middlewares",
     "@utils": "src/utils"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   }
 }

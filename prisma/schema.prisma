@@ -66,11 +66,6 @@ model User {
 
 model Client {
   id              Int       
-  email           String    @unique
-  name            String?
-  phone           String?
-  password        String
-  token           String?
   birthDate       DateTime?
   address         String?
   licenceValidity DateTime?
