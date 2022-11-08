@@ -24,7 +24,12 @@ const create = async (req, res, next) => {
             phone,
             role: {
               connectOrCreate: {
-                name: 'cliente',
+                where: {
+                  name: 'cliente',
+                },
+                create: {
+                  name: 'cliente',
+                },
               },
             },
           },

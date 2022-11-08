@@ -19,6 +19,16 @@ const create = async (req, res, next) => {
         name,
         email,
         password,
+        role: {
+          connectOrCreate: {
+            where: {
+              name: 'predeterminado',
+            },
+            create: {
+              name: 'predeterminado',
+            },
+          },
+        },
       },
     });
 

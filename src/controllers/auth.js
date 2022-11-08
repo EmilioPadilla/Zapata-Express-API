@@ -20,7 +20,7 @@ const login = async (req, res, next) => {
 
     if (!validPassword) throw createHttpError[403]('Invalid credentials');
 
-    const accessToken = jwt.sign({ sub: user.id, role: user.role }, process.env.JWT_SECRET, {
+    const accessToken = jwt.sign({ userId: user.id, roleId: user.role.id }, process.env.JWT_SECRET, {
       algorithm: process.env.JWT_ALGORITHM,
       expiresIn: '1d',
     });

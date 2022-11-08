@@ -9,7 +9,7 @@ datasource db {
 
 model Permit {
   id          Int             @id @default(autoincrement())
-  name        String
+  name        String          @unique
   description String?
   roles       RoleHasPermit[]
 }

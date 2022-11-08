@@ -4,7 +4,7 @@ const prismaClient = require('@prisma/client');
 const prisma = prismaClient.PrismaClient();
 
 const isRevoked = async (_req, payload, done) => {
-  const id = payload.sub;
+  const id = payload.userId;
   const user = await prisma.user.findUnique({
     where: { id },
   });
@@ -26,6 +26,4 @@ const jwt = () => {
   });
 };
 
-module.exports = {
-  jwt,
-};
+module.exports = jwt;
