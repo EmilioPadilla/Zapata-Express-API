@@ -10,12 +10,16 @@ node/
 node_modules/
 .next/
 .next/**
-*.env*
+*.env
+package-lock.json
 
 #build artifacts
 dist/
 built/
 reports/
+
+# Migrations
+prisma/migrations/
 
 # OS generated files #
 ######################

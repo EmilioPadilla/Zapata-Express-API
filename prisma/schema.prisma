@@ -7,26 +7,71 @@ datasource db {
   url      = env("DB_URL")
 }
 
+model Permit {
+  id          Int             @id @default(autoincrement())
+  name        String          @unique
+  description String?
+  roles       RoleHasPermit[]
+}
+
+model Role {
+  id      Int             @id @default(autoincrement())
+  name    String          @unique
+  users   User[]
+  permits RoleHasPermit[]
+}
+
+model RoleHasPermit {
+  role          Role     @relation(fields: [idRole], references: [id])
+  idRole        Int
+  permit        Permit   @relation(fields: [idPermit], references: [id])
+  idPermit      Int
+  creation_date DateTime @default(now())
+  update_date   DateTime @updatedAt
+
+  @@id([idPermit, idRole])
+}
+
 model User {
-  id       Int     @id @default(autoincrement())
-  email    String  @unique
-  password String
-  name     String?
-  phone    String?
-  token    String?
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
+  password  String
+  name      String
+  phone     String?
+  token     String?
+  role      Role       @relation(fields: [idRole], references: [id])
+  idRole    Int
+  clients   Client[]
+  userId    Int?
+  employees Employee[]
+}
+
+model Office {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  address   String
+  state     String
+  city      String
+  employees Employee[]
+}
+
+model Employee {
+  user     User     @relation(fields: [id], references: [id])
+  id       Int      @id
+  office   Office   @relation(fields: [officeId], references: [id])
+  officeId Int
+  clients  Client[]
 }
 
 model Client {
-  id              Int       @id @default(autoincrement())
-  email           String    @unique
-  name            String?
-  phone           String?
-  password        String
-  token           String?
+  user            User      @relation(fields: [id], references: [id])
+  id              Int       @id
   birthDate       DateTime?
   address         String?
   licenceValidity DateTime?
   cars            Car[]
+  seller          Employee  @relation(fields: [sellerId], references: [id])
+  sellerId        Int
 }
 
 model Brand {
@@ -38,7 +83,7 @@ model Brand {
 model Model {
   id      Int    @id @default(autoincrement())
   name    String
-  year    String
+  year    Int
   brand   Brand  @relation(fields: [brandId], references: [id])
   brandId Int
   cars    Car[]
@@ -46,7 +91,6 @@ model Model {
 
 model Car {
   id                      Int       @id @default(autoincrement())
-  initialKilometers       Int
   currentKilometers       Int?
   geofenceRadius          Float     @default(150)
   velocityLimit           Float     @default(20)
@@ -57,22 +101,18 @@ model Car {
   circulationCardValidity DateTime
   model                   Model     @relation(fields: [modelId], references: [id])
   modelId                 Int
-  client                  Client    @relation(fields: [clientId], references: [id])
+  client                  Client?   @relation(fields: [clientId], references: [id])
   clientId                Int
   gps                     Gps?
 }
 
 model Gps {
-  id          Int       @id @default(autoincrement())
-  alias       String    @unique
+  id          Int    @id @default(autoincrement())
+  alias       String @unique
   latitude    Float?
   longitude   Float?
-  battery     Int?
-  date        DateTime?
-  altitude    Float?
-  velocity    Float?
   orientation Float?
-  mtsError    Float?
-  car         Car       @relation(fields: [carId], references: [id])
-  carId       Int       @unique
+  velocity    Float?
+  car         Car    @relation(fields: [carId], references: [id])
+  carId       Int    @unique
 }

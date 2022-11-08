@@ -5,12 +5,14 @@
   "scripts": {
     "start": "node ./src/app.js",
     "format": "prettier --write .",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "migrateAndSeed": "yarn prisma generate && prisma migrate dev --name init"
   },
   "dependencies": {
     "@prisma/client": "^4.5.0",
     "bcrypt": "^5.1.0",
     "cookie-parser": "~1.4.4",
+    "dateformat": "^5.0.3",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "express-jwt": "^7.7.7",
@@ -22,11 +24,15 @@
     "eslint": "^8.26.0",
     "eslint-config-prettier": "^8.5.0",
     "prettier": "^2.7.1",
-    "prisma": "^4.5.0"
+    "prisma": "^4.6.0"
   },
   "_moduleAliases": {
     "@controllers": "src/controllers",
     "@routes": "src/routes",
+    "@middlewares": "src/middlewares",
     "@utils": "src/utils"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   }
 }
