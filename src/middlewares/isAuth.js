@@ -4,9 +4,9 @@ const prismaClient = require('@prisma/client');
 const prisma = prismaClient.PrismaClient();
 
 const isRevoked = async (_req, payload, done) => {
-  const subject = payload.sub;
+  const id = payload.sub;
   const user = await prisma.user.findUnique({
-    where: { id: subject },
+    where: { id },
   });
 
   if (user != null) return done(null, true);
@@ -20,9 +20,11 @@ const jwt = () => {
   return expressJwt({
     secret,
     isRevoked,
-    algorithm: ['RS256'],
+    algorithm: [process.env.JWT_ALGORITHM],
   }).unless({
-    path: ['/login'],
+    path: [
+      'api/auth/login'
+    ],
   });
 };
 

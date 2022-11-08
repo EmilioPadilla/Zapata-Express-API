@@ -4,36 +4,6 @@ const hash = require('@utils/hash.js');
 
 const prisma = new prismaClient.PrismaClient();
 
-const login = async (req, res, next) => {
-  try {
-    const { email, password } = req.body;
-
-    const user = await prisma.user.findUnique({
-      where: { email },
-    });
-
-    if (user == null) throw createHttpError[403]('Invalid credentials');
-
-    const validPassword = await hash.validateItem(password, user.password);
-
-    if (!validPassword) throw createHttpError[403]('Invalid credentials');
-
-    // Create the access token with express jwt
-    const accessToken = 'the token';
-
-    const response = await prisma.user.update({
-      where: { email },
-      data: {
-        token: accessToken,
-      },
-    });
-
-    return res.json(response);
-  } catch (error) {
-    return next(error);
-  }
-};
-
 const create = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
@@ -139,7 +109,6 @@ const updatePassword = async (req, res, next) => {
 };
 
 module.exports = {
-  login,
   create,
   update,
   updatePassword,
