@@ -4,7 +4,7 @@ const prismaClient = require('@prisma/client');
 const prisma = prismaClient.PrismaClient();
 
 const isRevoked = async (_req, payload, done) => {
-  const id = payload.sub;
+  const id = payload.userId;
   const user = await prisma.user.findUnique({
     where: { id },
   });
@@ -22,12 +22,8 @@ const jwt = () => {
     isRevoked,
     algorithm: [process.env.JWT_ALGORITHM],
   }).unless({
-    path: [
-      'api/auth/login'
-    ],
+    path: ['api/auth/login'],
   });
 };
 
-module.exports = {
-  jwt,
-};
+module.exports = jwt;
