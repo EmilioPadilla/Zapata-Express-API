@@ -20,14 +20,10 @@ const login = async (req, res, next) => {
 
     if (!validPassword) throw createHttpError[403]('Invalid credentials');
 
-    const accessToken = jwt.sign(
-      { sub: user.id, role: user.role },
-      process.env.JWT_SECRET,
-      {
-        algorithm: process.env.JWT_ALGORITHM,
-        expiresIn: '1d',
-      }
-    )
+    const accessToken = jwt.sign({ sub: user.id, role: user.role }, process.env.JWT_SECRET, {
+      algorithm: process.env.JWT_ALGORITHM,
+      expiresIn: '1d',
+    });
 
     const response = await prisma.user.update({
       where: { email },
@@ -44,4 +40,4 @@ const login = async (req, res, next) => {
 
 module.exports = {
   login,
-}
+};

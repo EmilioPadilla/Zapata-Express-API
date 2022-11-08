@@ -48,7 +48,7 @@ model User {
 
 model Office {
   id        Int        @id @default(autoincrement())
-  name      String
+  name      String     @unique
   address   String
   state     String
   city      String

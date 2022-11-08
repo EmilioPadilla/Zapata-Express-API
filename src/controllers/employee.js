@@ -6,15 +6,15 @@ const prisma = new prismaClient.PrismaClient();
 
 const create = async (req, res, next) => {
   try {
-    const { name, email, password, phone, birthDate, address, licenceValidity, sellerId } = req.body;
+    const { name, email, password, phone, officeId } = req.body;
 
-    const client = await prisma.client.findUnique({
+    const employee = await prisma.employee.findUnique({
       where: { user: { email } },
     });
 
-    if (client != null) throw createHttpError[409]('Email already taken');
+    if (employee != null) throw createHttpError[409]('Email already taken');
 
-    const result = await prisma.client.create({
+    const result = await prisma.employee.create({
       data: {
         user: {
           create: {
@@ -24,19 +24,16 @@ const create = async (req, res, next) => {
             phone,
             role: {
               connectOrCreate: {
-                name: 'cliente',
+                name: 'employeee',
               },
             },
           },
         },
-        seller: {
+        office: {
           connect: {
-            id: sellerId,
+            id: officeId,
           },
         },
-        birthDate: new Date(birthDate),
-        address,
-        licenceValidity: new Date(licenceValidity),
       },
     });
 
@@ -48,11 +45,11 @@ const create = async (req, res, next) => {
 
 const getAll = async (_req, res, next) => {
   try {
-    const clients = await prisma.client.findMany({
+    const employees = await prisma.employee.findMany({
       include: { user: true },
     });
 
-    return res.json(clients);
+    return res.json(employees);
   } catch (error) {
     return next(error);
   }
@@ -62,14 +59,14 @@ const get = async (req, res, next) => {
   try {
     const id = Number(req.params.id);
 
-    const client = await prisma.client.findUnique({
+    const employee = await prisma.employee.findUnique({
       where: { id },
       include: { user: true },
     });
 
-    if (client == null) throw createHttpError[404]('No client found');
+    if (employee == null) throw createHttpError[404]('No employee found');
 
-    return res.json(client);
+    return res.json(employee);
   } catch (error) {
     return next(error);
   }
@@ -77,16 +74,16 @@ const get = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   try {
-    const { name, email, phone, birthDate, address, licenceValidity } = req.body;
+    const { name, email, phone, officeId } = req.body;
     const id = Number(req.params.id);
 
-    const client = await prisma.client.findUnique({
+    const employee = await prisma.employee.findUnique({
       where: { id },
     });
 
-    if (client == null) throw createHttpError[404]('No client found');
+    if (employee == null) throw createHttpError[404]('No employee found');
 
-    const response = await prisma.client.update({
+    const response = await prisma.employee.update({
       where: { id },
       data: {
         user: {
@@ -96,9 +93,11 @@ const update = async (req, res, next) => {
             phone,
           },
         },
-        birthDate: new Date(birthDate),
-        address,
-        licenceValidity: new Date(licenceValidity),
+        office: {
+          connect: {
+            id: officeId,
+          },
+        },
       },
     });
 
@@ -113,18 +112,18 @@ const updatePassword = async (req, res, next) => {
     const { previousPassword, newPassword } = req.body;
     const id = Number(req.params.id);
 
-    const client = await prisma.client.findUnique({
+    const employee = await prisma.employee.findUnique({
       where: { id },
       include: { user: true },
     });
 
-    if (client == null) throw createHttpError[404]('No client found');
+    if (employee == null) throw createHttpError[404]('No employee found');
 
-    const validPassword = await hash.validateItem(previousPassword, client.user.password);
+    const validPassword = await hash.validateItem(previousPassword, employee.user.password);
 
     if (!validPassword) throw createHttpError[401]('No matching password');
 
-    const response = await prisma.client.update({
+    const response = await prisma.employee.update({
       where: { id },
       data: {
         user: {

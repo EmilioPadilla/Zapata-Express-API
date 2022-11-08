@@ -27,7 +27,9 @@ app.use(isAuth());
 // Routers
 app.use('/api/auth', router.authRoutes);
 app.use('/api/users', router.userRoutes);
-app.use('/api/clients', router.clientRoutes); 
+app.use('/api/clients', router.clientRoutes);
+app.use('/api/offices', router.officeRoutes);
+app.use('/api/employees', router.employeeRoutes);
 app.use('/api/cars', router.carRoutes);
 app.use('/api/v1/gps', router.gpsRoutes);
 
