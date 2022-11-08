@@ -1,7 +1,7 @@
 const expressJwt = require('express-jwt');
 const prismaClient = require('@prisma/client');
 
-const prisma = prismaClient.PrismaClient();
+const prisma = new prismaClient.PrismaClient();
 
 const isRevoked = async (_req, payload, done) => {
   const id = payload.userId;
@@ -17,10 +17,10 @@ const isRevoked = async (_req, payload, done) => {
 const jwt = () => {
   const secret = process.env.JWT_SECRET;
 
-  return expressJwt({
+  return expressJwt.expressjwt({
     secret,
     isRevoked,
-    algorithm: [process.env.JWT_ALGORITHM],
+    algorithms: [process.env.JWT_ALGORITHM],
   }).unless({
     path: ['api/auth/login'],
   });
