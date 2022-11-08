@@ -9,18 +9,31 @@ const create = async (req, res, next) => {
     const { name, email, password, phone, birthDate, address, licenceValidity, sellerId } = req.body;
 
     const client = await prisma.client.findUnique({
-      where: { email },
+      where: { user: { email } },
     });
 
     if (client != null) throw createHttpError[409]('Email already taken');
 
     const result = await prisma.client.create({
       data: {
-        //Get id of client from user table
-        name,
-        email,
-        password: await hash.hashItem(password),
-        phone,
+        user: {
+          create: {
+            name,
+            email,
+            password: await hash.hashItem(password),
+            phone,
+            role: {
+              connectOrCreate: {
+                name: 'cliente'
+              }
+            }
+          }
+        },
+        seller: {
+          connect: {
+            id: sellerId
+          }
+        },
         birthDate: new Date(birthDate),
         address,
         licenceValidity: new Date(licenceValidity),
@@ -35,7 +48,9 @@ const create = async (req, res, next) => {
 
 const getAll = async (_req, res, next) => {
   try {
-    const clients = await prisma.client.findMany();
+    const clients = await prisma.client.findMany({ 
+      include: { user: true },
+    });
 
     return res.json(clients);
   } catch (error) {
@@ -49,6 +64,7 @@ const get = async (req, res, next) => {
 
     const client = await prisma.client.findUnique({
       where: { id },
+      include: { user: true }
     });
 
     if (client == null) throw createHttpError[404]('No client found');
@@ -73,9 +89,13 @@ const update = async (req, res, next) => {
     const response = await prisma.client.update({
       where: { id },
       data: {
-        name,
-        email,
-        phone,
+        user: {
+          update: {
+            name,
+            email,
+            phone,
+          }
+        },
         birthDate: new Date(birthDate),
         address,
         licenceValidity: new Date(licenceValidity),
@@ -91,23 +111,27 @@ const update = async (req, res, next) => {
 const updatePassword = async (req, res, next) => {
   try {
     const { previousPassword, newPassword } = req.body;
-    console.log(previousPassword,newPassword);
     const id = Number(req.params.id);
 
     const client = await prisma.client.findUnique({
       where: { id },
+      include: { user: true }
     });
     
     if (client == null) throw createHttpError[404]('No client found');
 
-    const validPassword = await hash.validateItem(previousPassword, client.password);
+    const validPassword = await hash.validateItem(previousPassword, client.user.password);
 
     if (!validPassword) throw createHttpError[401]('No matching password');
 
     const response = await prisma.client.update({
       where: { id },
       data: {
-        password: await hash.hashItem(newPassword),
+        user: {
+          update: {
+            password: await hash.hashItem(newPassword),
+          }
+        }
       },
     });
 
@@ -118,7 +142,6 @@ const updatePassword = async (req, res, next) => {
 };
 
 module.exports = {
-  login,
   create,
   update,
   updatePassword,

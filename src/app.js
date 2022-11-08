@@ -6,6 +6,9 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 
+// Import auth middleware
+const isAuth = require('./middlewares/isAuth');
+
 // Import all routers
 const router = require('./routes');
 
@@ -18,7 +21,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+// Use jwt service
+app.use(isAuth());
+
 // Routers
+app.use('/api/auth', router.authRoutes);
 app.use('/api/users', router.userRoutes);
 app.use('/api/clients', router.clientRoutes); 
 app.use('/api/cars', router.carRoutes);

@@ -3,8 +3,6 @@ const clientController = require('@controllers/client');
 
 const router = express.Router();
 
-router.post('/login', clientController.login);
-
 router.post('/create', clientController.create);
 
 router.put('/:id/update', clientController.update);
