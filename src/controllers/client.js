@@ -24,22 +24,27 @@ const create = async (req, res, next) => {
             phone,
             role: {
               connectOrCreate: {
-                name: 'cliente'
-              }
-            }
-          }
+                where: {
+                  name: 'cliente',
+                },
+                create: {
+                  name: 'cliente',
+                },
+              },
+            },
+          },
         },
         seller: {
           connect: {
-            id: sellerId
-          }
+            id: sellerId,
+          },
         },
         birthDate: new Date(birthDate),
         address,
         licenceValidity: new Date(licenceValidity),
       },
     });
-    
+
     return res.json(result);
   } catch (error) {
     return next(error);
@@ -48,7 +53,7 @@ const create = async (req, res, next) => {
 
 const getAll = async (_req, res, next) => {
   try {
-    const clients = await prisma.client.findMany({ 
+    const clients = await prisma.client.findMany({
       include: { user: true },
     });
 
@@ -64,7 +69,7 @@ const get = async (req, res, next) => {
 
     const client = await prisma.client.findUnique({
       where: { id },
-      include: { user: true }
+      include: { user: true },
     });
 
     if (client == null) throw createHttpError[404]('No client found');
@@ -77,9 +82,9 @@ const get = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   try {
-    const { name, email, phone,birthDate,address,licenceValidity } = req.body;
+    const { name, email, phone, birthDate, address, licenceValidity } = req.body;
     const id = Number(req.params.id);
- 
+
     const client = await prisma.client.findUnique({
       where: { id },
     });
@@ -94,7 +99,7 @@ const update = async (req, res, next) => {
             name,
             email,
             phone,
-          }
+          },
         },
         birthDate: new Date(birthDate),
         address,
@@ -115,9 +120,9 @@ const updatePassword = async (req, res, next) => {
 
     const client = await prisma.client.findUnique({
       where: { id },
-      include: { user: true }
+      include: { user: true },
     });
-    
+
     if (client == null) throw createHttpError[404]('No client found');
 
     const validPassword = await hash.validateItem(previousPassword, client.user.password);
@@ -130,8 +135,8 @@ const updatePassword = async (req, res, next) => {
         user: {
           update: {
             password: await hash.hashItem(newPassword),
-          }
-        }
+          },
+        },
       },
     });
 
