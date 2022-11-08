@@ -23,12 +23,15 @@
     "eslint": "^8.26.0",
     "eslint-config-prettier": "^8.5.0",
     "prettier": "^2.7.1",
-    "prisma": "^4.5.0"
+    "prisma": "^4.6.0"
   },
   "_moduleAliases": {
     "@controllers": "src/controllers",
     "@routes": "src/routes",
     "@middlewares": "src/middlewares",
     "@utils": "src/utils"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   }
 }
