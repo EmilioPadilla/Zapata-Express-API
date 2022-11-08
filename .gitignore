@@ -18,6 +18,9 @@ dist/
 built/
 reports/
 
+# Migrations
+prisma/migrations/
+
 # OS generated files #
 ######################
 .DS_Store
