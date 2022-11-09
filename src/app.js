@@ -30,8 +30,9 @@ app.use('/api/users', router.userRoutes);
 app.use('/api/clients', router.clientRoutes);
 app.use('/api/offices', router.officeRoutes);
 app.use('/api/employees', router.employeeRoutes);
-app.use('/api/cars', router.carRoutes);
+app.use('/api/cars', router.carRoutes); 
 app.use('/api/v1/gps', router.gpsRoutes);
+app.use('/api/models', router.modelsRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (_req, _res, next) {
@@ -39,7 +40,7 @@ app.use(function (_req, _res, next) {
 });
 
 const server = app.listen(1337, () =>
-  console.log(`
+  console.log(` 
   🚀 Server ready at: http://localhost:1337`)
 );
 
