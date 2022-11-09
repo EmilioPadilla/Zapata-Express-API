@@ -6,7 +6,7 @@
     "start": "node ./src/app.js",
     "format": "prettier --write .",
     "lint": "eslint .",
-    "migrateAndSeed": "yarn prisma generate && prisma migrate dev --name init"
+    "migrateAndSeed": " rm -rf prisma/migrations && yarn prisma generate && prisma migrate dev --name init"
   },
   "dependencies": {
     "@prisma/client": "^4.5.0",
