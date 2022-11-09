@@ -14,8 +14,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/users', router.userRoutes);
-app.use('/client', router.clientRoutes);
+app.use('/api/users', router.userRoutes);
+app.use('/api/clients', router.clientRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (_req, _res, next) {
