@@ -14,7 +14,7 @@ const login = async (req, res, next) => {
       include: { role: true },
     });
 
-    if (user == null) throw createHttpError[403]('Invalid credentials');
+    if (user == null) throw createHttpError[403]('Invalid credentials 👉🏼👈🏼');
 
     const validPassword = await hash.validateItem(password, user.password);
 
@@ -28,10 +28,11 @@ const login = async (req, res, next) => {
     const response = await prisma.user.update({
       where: { email },
       data: {
-        token: accessToken,
-      },
+          token: accessToken,
+        },
     });
 
+    console.log(accessToken)
     return res.json(response);
   } catch (error) {
     return next(error);
