@@ -39,6 +39,7 @@ model User {
   name      String
   phone     String?
   token     String?
+  active    Boolean    @default(true)
   role      Role       @relation(fields: [idRole], references: [id])
   idRole    Int
   clients   Client[]
@@ -46,20 +47,9 @@ model User {
   employees Employee[]
 }
 
-model Office {
-  id        Int        @id @default(autoincrement())
-  name      String     @unique
-  address   String
-  state     String
-  city      String
-  employees Employee[]
-}
-
 model Employee {
   user     User     @relation(fields: [id], references: [id])
   id       Int      @id
-  office   Office   @relation(fields: [officeId], references: [id])
-  officeId Int
   clients  Client[]
 }
 
@@ -70,8 +60,8 @@ model Client {
   address         String?
   licenceValidity DateTime?
   cars            Car[]
-  seller          Employee  @relation(fields: [sellerId], references: [id])
-  sellerId        Int
+  employee          Employee  @relation(fields: [employeeId], references: [id])
+  employeeId        Int
 }
 
 model Brand {
@@ -83,7 +73,7 @@ model Brand {
 model Model {
   id      Int    @id @default(autoincrement())
   name    String
-  year    Int
+  year    String
   brand   Brand  @relation(fields: [brandId], references: [id])
   brandId Int
   cars    Car[]
@@ -99,6 +89,7 @@ model Car {
   insurancePolicyValidity DateTime?
   verificationValidity    DateTime?
   circulationCardValidity DateTime
+  active                  Boolean   @default(true)
   model                   Model     @relation(fields: [modelId], references: [id])
   modelId                 Int
   client                  Client?   @relation(fields: [clientId], references: [id])
@@ -113,6 +104,7 @@ model Gps {
   longitude   Float?
   orientation Float?
   velocity    Float?
+  active      Boolean @default(true)
   car         Car    @relation(fields: [carId], references: [id])
   carId       Int    @unique
 }
