@@ -3,7 +3,6 @@ const createHttpError = require('http-errors');
 
 const prisma = new prismaClient.PrismaClient();
 
-// Get ALL - ✅
 const getAll = async (_req, res, next) => {
     try {
         const cars = await prisma.car.findMany();
@@ -14,7 +13,6 @@ const getAll = async (_req, res, next) => {
     }
 };
 
-// Get by ID .✅
 const get = async (req, res, next) => {
     try {
         const id = Number(req.params.id);
@@ -31,7 +29,6 @@ const get = async (req, res, next) => {
     }
 };
 
-// Create Car --  ✅
 const create = async (req, res, next) => {
     try {
         const { currentKilometers, image, description, circulationCardValidity, modelId, clientId } = req.body;
