@@ -5,11 +5,9 @@ const prisma = new prismaClient.PrismaClient();
 
 const isRevoked = async (_req, payload, done) => {
   const id = payload.userId;
-  console.log('id', id);
   const user = await prisma.user.findUnique({
     where: { id },
   });
-  console.log('user', user);
   if (user != null) return done(null, true);
 
   return done();
