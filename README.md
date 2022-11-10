@@ -11,29 +11,28 @@ git clone https://github.com/EmilioPadilla/Zapata-Express-API.git
 Install npm dependencies:
 
 ```
-cd prisma-examples/javascript/rest-express
 npm install
 ```
 
 or
 
 ```
-cd prisma-examples/javascript/rest-express
 yarn
 ```
 
 and also run this line
 
 ```
-npx prisma migrate dev --name init
+npm run migrateAndSeed
 ```
 
 also make sure you have the .env on your root file
 
 ```
-DB_URL=postgresql://db_user:db_password@db_host:db_port/db_name
+DB_URL=postgresql://usr:pwd@localhost/zapata_database
 JWT_SECRET=some_secret
-SALTROUNDS=10
+JWT_ALGORITHM='HS256'
+SALTROUNDS=0
 ```
 
 </details>

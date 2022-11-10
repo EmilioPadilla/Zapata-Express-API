@@ -19,7 +19,7 @@ const jwt = () => {
 
   return expressJwt({
     secret,
-    isRevoked,
+    // isRevoked,
     algorithm: [process.env.JWT_ALGORITHM],
   }).unless({
     path: ['api/auth/login'],
