@@ -1,7 +1,7 @@
 const expressJwt = require('express-jwt');
-//const prismaClient = require('@prisma/client');
+const prismaClient = require('@prisma/client');
 
-//const prisma = new prismaClient.PrismaClient();
+const prisma = new prismaClient.PrismaClient();
 
 const isRevoked = async (_req, payload, done) => {
   const id = payload.userId;
