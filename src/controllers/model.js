@@ -3,48 +3,52 @@ const createHttpError = require('http-errors');
 
 const prisma = new prismaClient.PrismaClient();
 
-// Get all.
+// Get all ✔
 const getAll = async (_req, res, next) => {
     try {
-        const cars = await prisma.model.findMany();
+        const models = await prisma.model.findMany();
 
-        return res.json(cars);
+        return res.json(models);
     } catch (error) {
         return next(error);
     }
 };
 
-// Get by ID
+// Get by ID ✔
 const get = async (req, res, next) => {
     try {
         const id = Number(req.params.id);
 
-        const car = await prisma.model.findUnique({
+        const model = await prisma.model.findUnique({
             where: { id },
         });
 
-        if (car == null) throw createHttpError[404]('No model found 👉🏼👈🏼');
+        if (model == null) throw createHttpError[404]('No model found 👉🏼👈🏼');
 
-        return res.json(car);
+        return res.json(model);
     } catch (error) {
         return next(error);
     }
 };
 
-// Create Car -- Faltan Endpoints de modelos
+// Create model -- Faltan Endpoints de modelos ✔
 const create = async (req, res, next) => {
     try {
-        const { currentKilometers, image, description, circulationCardValidity, modelId } = req.body;
+        const { name, year, brandId } = req.body;
 
-        const result = await prisma.car.create({
+        const brand= await prisma.brand.findUnique({
+            where:{id: brandId}
+        });
+        
+        if(brand==null) throw createHttpError[404]("brand no found");
+
+        const result = await prisma.model.create({
             data: {
-                currentKilometers,
-                image,
-                description,
-                circulationCardValidity: new Date(circulationCardValidity),
-                model: {
+                name,
+                year,
+                brand: {
                     connect: {
-                        id: modelId,
+                        id: brandId,
                     },
                 },
             },
@@ -58,22 +62,20 @@ const create = async (req, res, next) => {
 
 const update = async (req, res, next) => {
     try {
-        const { currentKilometers, image, description, circulationCardValidity } = req.body;
+        const { name, year} = req.body;
         const id = Number(req.params.id);
   
-      const car = await prisma.car.findUnique({
+      const model = await prisma.model.findUnique({
         where: { id },
       });
   
-      if (car == null) throw createHttpError[404]('No car found 👉🏼👈🏼');
+      if (model == null) throw createHttpError[404]('No model found 👉🏼👈🏼');
   
-      const response = await prisma.car.update({
+      const response = await prisma.model.update({
         where: { id },
         data: {
-            currentKilometers,
-            image,
-            description,
-            circulationCardValidity: new Date(circulationCardValidity),
+            name,
+            year,
         },
       });
   
