@@ -21,7 +21,7 @@ const get = async (req, res, next) => {
             where: { id },
         });
 
-        if (car == null) throw createHttpError[404]('No car found 👉🏼👈🏼');
+        if (car == null) throw createHttpError[404]('No car found');
 
         return res.json(car);
     } catch (error) {
@@ -37,13 +37,13 @@ const create = async (req, res, next) => {
             where: { id:  modelId },
         });
 
-        if (model == null) throw createHttpError[404]('No model found 👉🏼👈🏼');
+        if (model == null) throw createHttpError[404]('No model found');
 
         const client = await prisma.client.findUnique({
             where: { id: clientId },
         });
 
-        if (client == null) throw createHttpError[404]('No client found 🧊');
+        if (client == null) throw createHttpError[404]('No client found');
 
 
         const result = await prisma.car.create({
@@ -80,7 +80,7 @@ const update = async (req, res, next) => {
         where: { id },
       });
   
-      if (car == null) throw createHttpError[404]('No car found 👉🏼👈🏼');
+      if (car == null) throw createHttpError[404]('No car found');
   
       const response = await prisma.car.update({
         where: { id },
