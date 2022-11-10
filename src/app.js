@@ -6,7 +6,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 
-//const isAuth = require('./middlewares/isAuth');
+const isAuth = require('./middlewares/isAuth');
 
 // Import all routers
 const router = require('./routes');
@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // Use jwt service
-//app.use(isAuth());
+app.use(isAuth());
 
 // Routers
 app.use('/api/auth', router.authRoutes);
