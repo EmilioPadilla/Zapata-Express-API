@@ -14,7 +14,7 @@ const login = async (req, res, next) => {
       include: { role: true },
     });
 
-    if (user == null) throw createHttpError[403]('Invalid credentials 👉🏼👈🏼');
+    if (user == null) throw createHttpError[403]('Invalid credentials');
 
     const validPassword = await hash.validateItem(password, user.password);
 
