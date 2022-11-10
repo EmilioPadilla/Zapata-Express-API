@@ -33,10 +33,9 @@ const login = async (req, res, next) => {
       where: { email },
       data: {
           token: accessToken,
-        },
+      },
     });
 
-    console.log(accessToken)
     return res.json(response);
   } catch (error) {
     return next(error);
