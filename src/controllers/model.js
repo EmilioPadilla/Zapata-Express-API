@@ -3,7 +3,6 @@ const createHttpError = require('http-errors');
 
 const prisma = new prismaClient.PrismaClient();
 
-// Get all ✔
 const getAll = async (_req, res, next) => {
     try {
         const models = await prisma.model.findMany();
@@ -14,7 +13,6 @@ const getAll = async (_req, res, next) => {
     }
 };
 
-// Get by ID ✔
 const get = async (req, res, next) => {
     try {
         const id = Number(req.params.id);
@@ -23,7 +21,7 @@ const get = async (req, res, next) => {
             where: { id },
         });
 
-        if (model == null) throw createHttpError[404]('No model found 👉🏼👈🏼');
+        if (model == null) throw createHttpError[404]('No model found');
 
         return res.json(model);
     } catch (error) {
@@ -31,7 +29,6 @@ const get = async (req, res, next) => {
     }
 };
 
-// Create model -- Faltan Endpoints de modelos ✔
 const create = async (req, res, next) => {
     try {
         const { name, year, brandId } = req.body;
@@ -40,7 +37,7 @@ const create = async (req, res, next) => {
             where:{id: brandId}
         });
         
-        if(brand==null) throw createHttpError[404]("brand no found");
+        if(brand==null) throw createHttpError[404]("brand not found");
 
         const result = await prisma.model.create({
             data: {
@@ -69,7 +66,7 @@ const update = async (req, res, next) => {
         where: { id },
       });
   
-      if (model == null) throw createHttpError[404]('No model found 👉🏼👈🏼');
+      if (model == null) throw createHttpError[404]('No model found');
   
       const response = await prisma.model.update({
         where: { id },
