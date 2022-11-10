@@ -32,7 +32,7 @@ const login = async (req, res, next) => {
     const response = await prisma.user.update({
       where: { email },
       data: {
-          token: accessToken,
+        token: accessToken,
       },
     });
 
