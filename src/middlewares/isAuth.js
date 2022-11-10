@@ -5,10 +5,11 @@ const prisma = new prismaClient.PrismaClient();
 
 const isRevoked = async (_req, payload, done) => {
   const id = payload.userId;
+  console.log('id', id);
   const user = await prisma.user.findUnique({
     where: { id },
   });
-
+  console.log('user', user);
   if (user != null) return done(null, true);
 
   return done();
@@ -19,10 +20,13 @@ const jwt = () => {
 
   return expressJwt({
     secret,
-    isRevoked,
+    // isRevoked,
     algorithm: [process.env.JWT_ALGORITHM],
   }).unless({
-    path: ['api/auth/login'],
+    path: [
+      { url: '/api/auth/login', methods: ['POST', 'OPTIONS'] },
+      { url: '/api/users/create', methods: ['POST', 'OPTIONS'] },
+    ],
   });
 };
 

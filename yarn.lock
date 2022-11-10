@@ -521,6 +521,11 @@ express-unless@^0.3.0:
   resolved "https://registry.yarnpkg.com/express-unless/-/express-unless-0.3.1.tgz#2557c146e75beb903e2d247f9b5ba01452696e20"
   integrity sha512-MPF0KbUOTUMvTQ8/1+bewiYGdCbSL4FvkuVNe2ydjZ0HE/Uq2+NPfKLb1vA5DbcvVPrrAg6GB0ULURUALzzgqw==
 
+express-unless@^2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/express-unless/-/express-unless-2.1.3.tgz#f951c6cca52a24da3de32d42cfd4db57bc0f9a2e"
+  integrity sha512-wj4tLMyCVYuIIKHGt0FhCtIViBcwzWejX0EjNxveAa6dG+0XBCQhMbx+PnkLkFCxLC69qoFrxds4pIyL88inaQ==
+
 express@~4.16.1:
   version "4.16.4"
   resolved "https://registry.yarnpkg.com/express/-/express-4.16.4.tgz#fddef61926109e24c515ea97fd2f1bdbf62df12e"
