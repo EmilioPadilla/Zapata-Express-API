@@ -34,15 +34,13 @@ const get = async (req, res, next) => {
 // Create Car -- Faltan Endpoints de modelos
 const create = async (req, res, next) => {
     try {
-        const { currentKilometers, image, description, circulationCardValidity, modelId } = req.body;
+        const { name, year, modelId } = req.body;
 
-        const result = await prisma.car.create({
+        const result = await prisma.model.create({
             data: {
-                currentKilometers,
-                image,
-                description,
-                circulationCardValidity: new Date(circulationCardValidity),
-                model: {
+                name,
+                year,
+                brand: {
                     connect: {
                         id: modelId,
                     },
@@ -58,22 +56,20 @@ const create = async (req, res, next) => {
 
 const update = async (req, res, next) => {
     try {
-        const { currentKilometers, image, description, circulationCardValidity } = req.body;
+        const { name, year} = req.body;
         const id = Number(req.params.id);
   
-      const car = await prisma.car.findUnique({
+      const car = await prisma.model.findUnique({
         where: { id },
       });
   
-      if (car == null) throw createHttpError[404]('No car found 👉🏼👈🏼');
+      if (car == null) throw createHttpError[404]('No model found 👉🏼👈🏼');
   
       const response = await prisma.car.update({
         where: { id },
         data: {
-            currentKilometers,
-            image,
-            description,
-            circulationCardValidity: new Date(circulationCardValidity),
+            name,
+            year,
         },
       });
   
