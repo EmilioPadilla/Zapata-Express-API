@@ -8,7 +8,6 @@ const expressJwt = require('express-jwt');
   const user = await prisma.user.findUnique({
     where: { id },
   });
-
   if (user != null) return done(null, true);
 
   return done();
@@ -19,10 +18,13 @@ const jwt = () => {
 
   return expressJwt({
     secret,
-    //isRevoked,
+    // isRevoked,
     algorithm: [process.env.JWT_ALGORITHM],
   }).unless({
-    path: ['/api/auth/login'],
+    path: [
+      { url: '/api/auth/login', methods: ['POST', 'OPTIONS'] },
+      { url: '/api/users/create', methods: ['POST', 'OPTIONS'] },
+    ],
   });
 };
 

@@ -9,49 +9,33 @@ git clone https://github.com/EmilioPadilla/Zapata-Express-API.git
 ```
 
 Install npm dependencies:
-
 ```
-cd prisma-examples/javascript/rest-express
-npm install
-```
-
-or
-
-```
-cd prisma-examples/javascript/rest-express
 yarn
-```
-
-and also run this line
-
-```
-npx prisma migrate dev --name init
 ```
 
 also make sure you have the .env on your root file
 
 ```
-DB_URL=postgresql://db_user:db_password@db_host:db_port/db_name
+DB_URL=postgresql://usr:pwd@localhost/zapata_database
 JWT_SECRET=some_secret
-SALTROUNDS=10
+JWT_ALGORITHM='HS256'
+SALTROUNDS=0
 ```
 
 </details>
 
 ### 2. Create and seed the database
 
-Run the following command to create your SQLite database file. This also creates the `User` and `Post` tables that are defined in [`prisma/schema.prisma`](./prisma/schema.prisma):
 
 ```
-npx prisma migrate dev --name init
+npm run migrateAndSeed
 ```
 
-When `npx prisma migrate dev` is executed against a newly created database, seeding is also triggered. The seed file in [`prisma/seed.js`](./prisma/seed.js) will be executed and your database will be populated with the sample data.
 
 ### 3. Start the REST API server
 
 ```
-npm run dev
+yarn start
 ```
 
 The server is now running on `http://localhost:1337`. You can send the API requests implemented in `index.js`, e.g. [`http://localhost:1337`](http://localhost:1337).
