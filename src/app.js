@@ -6,7 +6,6 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 
-// Import auth middleware
 //const isAuth = require('./middlewares/isAuth');
 
 // Import all routers
