@@ -119,4 +119,5 @@ module.exports = {
     get,
     create,
     update,
+    getByUserId,
 };
