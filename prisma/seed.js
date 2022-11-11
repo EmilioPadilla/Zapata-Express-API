@@ -7,10 +7,10 @@ async function main() {
     data: {
       user: {
         create: {
-          email: 'suaj@gmail.com',
+          email: 'a01704889@tec.mx',
           password: await hash.hashItem('123456'),
-          name: 'Juan Pérez',
-          phone: '7721234567',
+          name: 'Emilio Padilla Miranda',
+          phone: '4622642021',
           token: 'sacaprendeysorprende2022',
           role: {
             create: {
@@ -25,7 +25,7 @@ async function main() {
             create: {
               email: 'a@gmail.com',
               password: await hash.hashItem('123456'),
-              name: 'Juan Pérez',
+              name: 'Rodrigo Montúfar',
               phone: '7721234568',
               token: 'sacaprendeysorprende2022',
               role: {
@@ -45,22 +45,27 @@ async function main() {
           circulationCardValidity: '2022-01-20T12:01:30.543Z',
           model: {
             create: {
-              name: 'CX3',
-              year: '2000',
+              name: 'MG',
+              year: '2022',
               brand: {
                 create: {
-                  name: 'Mazda',
+                  name: 'MG5',
                 },
               },
             },
           },
+          gps: {
+            create: {
+              alias: ""
+            }
+          }
         },
       },
     },
   });
   await prisma.user.create({
     data: {
-      email: 'a01704889@tec.mx',
+      email: 'matricula@tec.mx',
       password: await hash.hashItem('sacaprendeysorprende2022'),
       name: 'Emi Pérez',
       phone: '7721234567',
