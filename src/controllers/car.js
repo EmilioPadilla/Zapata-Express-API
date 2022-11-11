@@ -29,6 +29,22 @@ const get = async (req, res, next) => {
     }
 };
 
+const getByUserId = async (req, res, next) => {
+    try {
+        const id = Number(req.params.id);
+
+        const cars = await prisma.car.findMany({
+            where: { clientId : id },
+        });
+
+        if (cars == null) throw createHttpError[404]('No cars on this client');
+
+        return res.json(cars);
+    } catch (error) {
+        return next(error);
+    }
+};
+
 const create = async (req, res, next) => {
     try {
         const { currentKilometers, image, description, circulationCardValidity, modelId, clientId } = req.body;
