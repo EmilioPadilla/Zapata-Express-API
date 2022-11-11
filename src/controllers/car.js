@@ -47,7 +47,7 @@ const getByUserId = async (req, res, next) => {
 
 const create = async (req, res, next) => {
     try {
-        const { currentKilometers, image, description, circulationCardValidity, modelId, clientId } = req.body;
+        const { startKilometers, currentKilometers, image, description, circulationCardValidity, modelId, clientId } = req.body;
 
         const model = await prisma.model.findUnique({
             where: { id:  modelId },
@@ -64,6 +64,7 @@ const create = async (req, res, next) => {
 
         const result = await prisma.car.create({
             data: {
+                startKilometers,
                 currentKilometers,
                 image,
                 description,
@@ -89,7 +90,7 @@ const create = async (req, res, next) => {
 
 const update = async (req, res, next) => {
     try {
-        const { currentKilometers, image, description, circulationCardValidity } = req.body;
+        const {startKilometers, currentKilometers, image, description, circulationCardValidity } = req.body;
         const id = Number(req.params.id);
   
       const car = await prisma.car.findUnique({
@@ -101,6 +102,7 @@ const update = async (req, res, next) => {
       const response = await prisma.car.update({
         where: { id },
         data: {
+            startKilometers,
             currentKilometers,
             image,
             description,

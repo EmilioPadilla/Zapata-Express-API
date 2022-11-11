@@ -39,6 +39,7 @@ async function main() {
       },
       cars: {
         create: {
+          startKilometers: 1000,
           currentKilometers: 2000,
           image: '1',
           description: 'aire, pantalla, gps',
