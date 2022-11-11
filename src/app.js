@@ -33,6 +33,7 @@ app.use('/api/employees', router.employeeRoutes);
 app.use('/api/cars', router.carRoutes); 
 app.use('/api/v1/gps', router.gpsRoutes);
 app.use('/api/models', router.modelRoutes); 
+app.use('/api/brands', router.brandRoutes); 
 
 
 // catch 404 and forward to error handler
