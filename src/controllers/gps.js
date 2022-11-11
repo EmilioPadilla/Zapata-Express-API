@@ -24,7 +24,7 @@ const getGpsCoordinates = async (_req, res, next) => {
     //  c) Update Car.km by adding km calculated in b)
     // TODO: Uncomment when seeders ready
     // calculateKmTraveled(_req, res, next);
-
+    console.log(_req.body);
     return res.json(_req.body);
   } catch (error) {
     return next(error);
