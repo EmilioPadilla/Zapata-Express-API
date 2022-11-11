@@ -56,7 +56,7 @@ async function main() {
           },
           gps: {
             create: {
-              alias: ""
+              alias: "MG-5 Emilio"
             }
           }
         },
