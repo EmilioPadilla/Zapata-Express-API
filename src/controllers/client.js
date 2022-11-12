@@ -6,10 +6,10 @@ const prisma = new prismaClient.PrismaClient();
 
 const create = async (req, res, next) => {
   try {
-    const { name, email, password, phone, birthDate, address, licenceValidity, sellerId } = req.body;
+    const { name, email, password, phone, birthDate, address, sellerId } = req.body;
 
-    const client = await prisma.client.findUnique({
-      where: { user: { email } },
+    const client = await prisma.user.findUnique({
+      where: { email },
     });
 
     if (client != null) throw createHttpError[409]('Email already taken');
@@ -41,7 +41,6 @@ const create = async (req, res, next) => {
         },
         birthDate: new Date(birthDate),
         address,
-        licenceValidity: new Date(licenceValidity),
       },
     });
 
@@ -82,7 +81,7 @@ const get = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   try {
-    const { name, email, phone, birthDate, address, licenceValidity } = req.body;
+    const { name, email, phone, birthDate, address } = req.body;
     const id = Number(req.params.id);
 
     const client = await prisma.client.findUnique({
@@ -103,7 +102,6 @@ const update = async (req, res, next) => {
         },
         birthDate: new Date(birthDate),
         address,
-        licenceValidity: new Date(licenceValidity),
       },
     });
 

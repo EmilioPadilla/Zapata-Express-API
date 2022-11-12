@@ -42,7 +42,6 @@ async function main() {
           currentKilometers: 2000,
           image: '1',
           description: 'aire, pantalla, gps',
-          circulationCardValidity: '2022-01-20T12:01:30.543Z',
           model: {
             create: {
               name: 'MG',
@@ -56,9 +55,9 @@ async function main() {
           },
           gps: {
             create: {
-              alias: "MG-5 Emilio"
-            }
-          }
+              alias: 'MG-5 Emilio',
+            },
+          },
         },
       },
     },
@@ -120,7 +119,7 @@ async function main() {
       idPermit: 2,
     },
   });
-  
+
   // Vendedor
   await prisma.roleHasPermit.create({
     data: {
@@ -167,7 +166,7 @@ async function main() {
   });
 }
 main()
-.then(async () => {
+  .then(async () => {
     await prisma.$disconnect();
   })
   .catch(async (e) => {
