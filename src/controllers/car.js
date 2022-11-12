@@ -90,7 +90,7 @@ const create = async (req, res, next) => {
 
 const update = async (req, res, next) => {
     try {
-        const {startKilometers, currentKilometers, image, description, circulationCardValidity } = req.body;
+        const {startingKilometers, currentKilometers, image, description, circulationCardValidity } = req.body;
         const id = Number(req.params.id);
   
       const car = await prisma.car.findUnique({
@@ -102,7 +102,7 @@ const update = async (req, res, next) => {
       const response = await prisma.car.update({
         where: { id },
         data: {
-            startKilometers,
+            startingKilometers,
             currentKilometers,
             image,
             description,
