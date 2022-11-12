@@ -3,7 +3,7 @@ const carController = require('@controllers/car');
 
 const router = express.Router();
 
-router.get('/byclient/:id', carController.getByUserId);
+router.get('/client/:id', carController.getByClientId);
 
 router.get('/', carController.getAll);
 
