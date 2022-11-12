@@ -4,29 +4,29 @@ const createHttpError = require('http-errors');
 const prisma = new prismaClient.PrismaClient();
 
 const getAll = async (_req, res, next) => {
-    try {
-        const cars = await prisma.car.findMany();
+  try {
+    const cars = await prisma.car.findMany();
 
-        return res.json(cars);
-    } catch (error) {
-        return next(error);
-    }
+    return res.json(cars);
+  } catch (error) {
+    return next(error);
+  }
 };
 
 const get = async (req, res, next) => {
-    try {
-        const id = Number(req.params.id);
+  try {
+    const id = Number(req.params.id);
 
-        const car = await prisma.car.findUnique({
-            where: { id },
-        });
+    const car = await prisma.car.findUnique({
+      where: { id },
+    });
 
-        if (car == null) throw createHttpError[404]('No car found');
+    if (car == null) throw createHttpError[404]('No car found');
 
-        return res.json(car);
-    } catch (error) {
-        return next(error);
-    }
+    return res.json(car);
+  } catch (error) {
+    return next(error);
+  }
 };
 
 const getByClientId = async (req, res, next) => {

@@ -20,14 +20,10 @@ const login = async (req, res, next) => {
 
     if (!validPassword) throw createHttpError[403]('Invalid credentials');
 
-    const accessToken = jwt.sign(
-      { userId: user.id, roleId: user.role.id }, 
-      process.env.JWT_SECRET, 
-      {
-        algorithm: process.env.JWT_ALGORITHM,
-        expiresIn: '1800s',
-      }
-    );
+    const accessToken = jwt.sign({ userId: user.id, roleId: user.role.id }, process.env.JWT_SECRET, {
+      algorithm: process.env.JWT_ALGORITHM,
+      expiresIn: '1800s',
+    });
 
     const response = await prisma.user.update({
       where: { email },
@@ -44,7 +40,6 @@ const login = async (req, res, next) => {
 
 const logout = async (req, res, next) => {
   try {
-      
     const { email } = req.body;
 
     if (email == null) throw createHttpError[403]('Invalid credentials');
@@ -57,14 +52,14 @@ const logout = async (req, res, next) => {
     });
 
     res.json({
-      "message": "Successfully logged out"
+      message: 'Successfully logged out',
     });
   } catch (error) {
     return next(error);
   }
-}
+};
 
 module.exports = {
   login,
-  logout
+  logout,
 };

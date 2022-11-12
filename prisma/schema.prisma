@@ -43,14 +43,13 @@ model User {
   role      Role       @relation(fields: [idRole], references: [id])
   idRole    Int
   clients   Client[]
-  userId    Int?
   employees Employee[]
 }
 
 model Employee {
-  user     User     @relation(fields: [id], references: [id])
-  id       Int      @id
-  clients  Client[]
+  user    User     @relation(fields: [id], references: [id])
+  id      Int      @id
+  clients Client[]
 }
 
 model Client {
@@ -60,8 +59,8 @@ model Client {
   address         String?
   licenceValidity DateTime?
   cars            Car[]
-  employee          Employee  @relation(fields: [employeeId], references: [id])
-  employeeId        Int
+  employee        Employee  @relation(fields: [employeeId], references: [id])
+  employeeId      Int
 }
 
 model Brand {
@@ -89,7 +88,7 @@ model Car {
   description             String?
   insurancePolicyValidity DateTime?
   verificationValidity    DateTime?
-  circulationCardValidity DateTime
+  circulationCardValidity DateTime?
   active                  Boolean   @default(true)
   model                   Model     @relation(fields: [modelId], references: [id])
   modelId                 Int
@@ -99,13 +98,13 @@ model Car {
 }
 
 model Gps {
-  id          Int    @id @default(autoincrement())
-  alias       String @unique
+  id          Int     @id @default(autoincrement())
+  alias       String  @unique
   latitude    Float?
   longitude   Float?
   orientation Float?
   velocity    Float?
   active      Boolean @default(true)
-  car         Car    @relation(fields: [carId], references: [id])
-  carId       Int    @unique
+  car         Car     @relation(fields: [carId], references: [id])
+  carId       Int     @unique
 }

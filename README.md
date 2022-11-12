@@ -9,6 +9,7 @@ git clone https://github.com/EmilioPadilla/Zapata-Express-API.git
 ```
 
 Install npm dependencies:
+
 ```
 yarn
 ```
@@ -26,11 +27,9 @@ SALTROUNDS=0
 
 ### 2. Create and seed the database
 
-
 ```
 npm run migrateAndSeed
 ```
-
 
 ### 3. Start the REST API server
 
