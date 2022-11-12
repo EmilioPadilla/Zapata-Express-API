@@ -80,6 +80,7 @@ model Model {
 
 model Car {
   id                      Int       @id @default(autoincrement())
+  startingKilometers         Int
   currentKilometers       Int?
   geofenceRadius          Float     @default(150)
   velocityLimit           Float     @default(20)
