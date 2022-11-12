@@ -56,9 +56,9 @@ async function main() {
           },
           gps: {
             create: {
-              alias: "MG-5 Emilio"
-            }
-          }
+              alias: 'MG-5 Emilio',
+            },
+          },
         },
       },
     },
@@ -120,7 +120,7 @@ async function main() {
       idPermit: 2,
     },
   });
-  
+
   // Vendedor
   await prisma.roleHasPermit.create({
     data: {
@@ -167,7 +167,7 @@ async function main() {
   });
 }
 main()
-.then(async () => {
+  .then(async () => {
     await prisma.$disconnect();
   })
   .catch(async (e) => {

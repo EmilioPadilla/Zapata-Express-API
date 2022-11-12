@@ -6,10 +6,10 @@ const prisma = new prismaClient.PrismaClient();
 
 const create = async (req, res, next) => {
   try {
-    const { name, email, password, phone, officeId } = req.body;
+    const { name, email, password, phone } = req.body;
 
-    const employee = await prisma.employee.findUnique({
-      where: { user: { email } },
+    const employee = await prisma.user.findUnique({
+      where: { email },
     });
 
     if (employee != null) throw createHttpError[409]('Email already taken');
@@ -27,11 +27,6 @@ const create = async (req, res, next) => {
                 name: 'vendedor',
               },
             },
-          },
-        },
-        office: {
-          connect: {
-            id: officeId,
           },
         },
       },
@@ -74,7 +69,7 @@ const get = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   try {
-    const { name, email, phone, officeId } = req.body;
+    const { name, email, phone } = req.body;
     const id = Number(req.params.id);
 
     const employee = await prisma.employee.findUnique({
@@ -91,11 +86,6 @@ const update = async (req, res, next) => {
             name,
             email,
             phone,
-          },
-        },
-        office: {
-          connect: {
-            id: officeId,
           },
         },
       },

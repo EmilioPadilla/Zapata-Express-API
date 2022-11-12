@@ -4,75 +4,74 @@ const createHttpError = require('http-errors');
 const prisma = new prismaClient.PrismaClient();
 
 const getAll = async (_req, res, next) => {
-    try {
-        const brands = await prisma.brand.findMany();
+  try {
+    const brands = await prisma.brand.findMany();
 
-        return res.json(brands);
-    } catch (error) {
-        return next(error);
-    }
+    return res.json(brands);
+  } catch (error) {
+    return next(error);
+  }
 };
 
 const get = async (req, res, next) => {
-    try {
-        const id = Number(req.params.id);
+  try {
+    const id = Number(req.params.id);
 
-        const brand = await prisma.brand.findUnique({
-            where: { id },
-        });
+    const brand = await prisma.brand.findUnique({
+      where: { id },
+    });
 
-        if (brand == null) throw createHttpError[404]('No brand found');
+    if (brand == null) throw createHttpError[404]('No brand found');
 
-        return res.json(brand);
-    } catch (error) {
-        return next(error);
-    }
+    return res.json(brand);
+  } catch (error) {
+    return next(error);
+  }
 };
 
 const create = async (req, res, next) => {
-    try {
-        const { name } = req.body;
+  try {
+    const { name } = req.body;
 
-        
-        const result = await prisma.brand.create({
-            data: {
-                name,
-            },
-        });
+    const result = await prisma.brand.create({
+      data: {
+        name,
+      },
+    });
 
-        return res.json(result);
-    } catch (error) {
-        return next(error);
-    }
+    return res.json(result);
+  } catch (error) {
+    return next(error);
+  }
 };
 
 const update = async (req, res, next) => {
-    try {
-        const { name} = req.body;
-        const id = Number(req.params.id);
-  
-      const brand = await prisma.brand.findUnique({
-        where: { id },
-      });
-  
-      if (brand == null) throw createHttpError[404]('No model found');
-  
-      const response = await prisma.brand.update({
-        where: { id },
-        data: {
-            name,
-        },
-      });
-  
-      return res.json(response);
-    } catch (error) {
-      return next(error);
-    }
-  };
+  try {
+    const { name } = req.body;
+    const id = Number(req.params.id);
+
+    const brand = await prisma.brand.findUnique({
+      where: { id },
+    });
+
+    if (brand == null) throw createHttpError[404]('No model found');
+
+    const response = await prisma.brand.update({
+      where: { id },
+      data: {
+        name,
+      },
+    });
+
+    return res.json(response);
+  } catch (error) {
+    return next(error);
+  }
+};
 
 module.exports = {
-    getAll,
-    get,
-    create,
-    update,
+  getAll,
+  get,
+  create,
+  update,
 };
