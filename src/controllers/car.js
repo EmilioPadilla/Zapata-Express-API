@@ -29,7 +29,7 @@ const get = async (req, res, next) => {
     }
 };
 
-const getByUserId = async (req, res, next) => {
+const getByClientId = async (req, res, next) => {
     try {
         const id = Number(req.params.id);
 
