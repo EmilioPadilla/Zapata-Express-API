@@ -47,7 +47,7 @@ const getByClientId = async (req, res, next) => {
 
 const create = async (req, res, next) => {
     try {
-        const { startKilometers, currentKilometers, image, description, circulationCardValidity, modelId, clientId } = req.body;
+        const { startingKilometers, currentKilometers, image, description, circulationCardValidity, modelId, clientId } = req.body;
 
         const model = await prisma.model.findUnique({
             where: { id:  modelId },
