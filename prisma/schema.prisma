@@ -87,7 +87,7 @@ model Car {
   description             String?
   insurancePolicyValidity DateTime?
   verificationValidity    DateTime?
-  circulationCardValidity DateTime
+  circulationCardValidity DateTime?
   active                  Boolean   @default(true)
   model                   Model     @relation(fields: [modelId], references: [id])
   modelId                 Int

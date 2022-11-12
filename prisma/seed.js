@@ -42,7 +42,6 @@ async function main() {
           currentKilometers: 2000,
           image: '1',
           description: 'aire, pantalla, gps',
-          circulationCardValidity: '2022-01-20T12:01:30.543Z',
           model: {
             create: {
               name: 'MG',
