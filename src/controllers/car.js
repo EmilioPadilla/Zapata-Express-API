@@ -121,5 +121,5 @@ module.exports = {
     get,
     create,
     update,
-    getByUserId,
+    getByClientId,
 };
