@@ -64,7 +64,7 @@ const create = async (req, res, next) => {
 
         const result = await prisma.car.create({
             data: {
-                startKilometers,
+                startingKilometers,
                 currentKilometers,
                 image,
                 description,
