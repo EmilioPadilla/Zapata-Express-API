@@ -13,4 +13,6 @@ router.get('/', clientController.getAll);
 
 router.get('/:id', clientController.get);
 
+router.get('/info-client', clientController.getInfoClient);
+
 module.exports = router;

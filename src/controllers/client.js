@@ -144,10 +144,24 @@ const updatePassword = async (req, res, next) => {
   }
 };
 
+
+const getInfoClient = async (_req, res, next) => {
+  try {
+    const clients = await prisma.client.findMany({
+      include: { user: true },
+    });
+
+    return res.json(clients);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   create,
   update,
   updatePassword,
   getAll,
   get,
+  getInfoClient,
 };
