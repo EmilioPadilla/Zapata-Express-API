@@ -13,6 +13,8 @@ router.get('/', clientController.getAll);
 
 router.get('/:id', clientController.get);
 
+router.delete('/:id', clientController.remove);
+
 router.get('/flutter/:id', clientController.getClient)
 
 module.exports = router;
