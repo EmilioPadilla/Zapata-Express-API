@@ -13,6 +13,9 @@ router.get('/', clientController.getAll);
 
 router.get('/:id', clientController.get);
 
-router.get('/info-client', clientController.getInfoClient);
+//router.get('/:id/info-client', clientController.getInfoClient);
+
+router.put('/:id/update-license', clientController.updateLicense);
+
 
 module.exports = router;
