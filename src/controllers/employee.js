@@ -24,7 +24,12 @@ const create = async (req, res, next) => {
             phone,
             role: {
               connectOrCreate: {
-                name: 'vendedor',
+                where: {
+                  name: 'vendedor',
+                },
+                create: {
+                  name: 'vendedor'
+                },
               },
             },
           },
@@ -41,7 +46,13 @@ const create = async (req, res, next) => {
 const getAll = async (_req, res, next) => {
   try {
     const employees = await prisma.employee.findMany({
-      include: { user: true },
+      include: { 
+        user: {
+          include: {
+            role: true,
+          }
+        } 
+      },
     });
 
     return res.json(employees);
@@ -62,6 +73,27 @@ const get = async (req, res, next) => {
     if (employee == null) throw createHttpError[404]('No employee found');
 
     return res.json(employee);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const remove = async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+
+    const employee = await prisma.employee.findUnique({
+      where: { id },
+      include: { user: true },
+    });
+
+    if (employee == null) throw createHttpError[404]('No employee found');
+
+    const response = await prisma.employee.delete({
+      where: { id }
+    })
+
+    return res.json(response);
   } catch (error) {
     return next(error);
   }
@@ -133,6 +165,7 @@ const updatePassword = async (req, res, next) => {
 module.exports = {
   create,
   update,
+  remove,
   updatePassword,
   getAll,
   get,
