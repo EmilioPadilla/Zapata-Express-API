@@ -163,6 +163,29 @@ const update = async (req, res, next) => {
       return next(error);
     }
   };
+  const updateCirculation = async (req, res, next) => {
+    try {
+      const { circulationCardValidity } = req.body;
+      const id = Number(req.params.id);
+      
+      const car = await prisma.car.findUnique({
+        where: { id },
+      });
+  
+      if (car == null) throw createHttpError[404]('No client found');
+  
+      const response = await prisma.car.update({
+        where: { id },
+        data: {
+          circulationCardValidity: new Date(circulationCardValidity),
+        },
+      });
+  
+      return res.json(response);
+    } catch (error) {
+      return next(error);
+    }
+  };
 
 module.exports = {
     getAll,
@@ -172,4 +195,5 @@ module.exports = {
     getByClientId,
     updateVerification,
     updatePolicy,
+    updateCirculation,
 };
