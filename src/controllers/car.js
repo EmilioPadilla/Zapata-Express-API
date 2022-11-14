@@ -140,6 +140,30 @@ const update = async (req, res, next) => {
     }
   };
 
+  const updatePolicy = async (req, res, next) => {
+    try {
+      const { insurancePolicyValidity } = req.body;
+      const id = Number(req.params.id);
+      
+      const car = await prisma.car.findUnique({
+        where: { id },
+      });
+  
+      if (car == null) throw createHttpError[404]('No client found');
+  
+      const response = await prisma.car.update({
+        where: { id },
+        data: {
+          insurancePolicyValidity: new Date(insurancePolicyValidity),
+        },
+      });
+  
+      return res.json(response);
+    } catch (error) {
+      return next(error);
+    }
+  };
+
 module.exports = {
     getAll,
     get,
@@ -147,4 +171,5 @@ module.exports = {
     update,
     getByClientId,
     updateVerification,
+    updatePolicy,
 };

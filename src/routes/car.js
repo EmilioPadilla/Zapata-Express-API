@@ -15,4 +15,6 @@ router.put('/:id/update', carController.update);
 
 router.put('/update-verification/:id', carController.updateVerification);
 
+router.put('/update-policy/:id', carController.updatePolicy);
+
 module.exports = router;
