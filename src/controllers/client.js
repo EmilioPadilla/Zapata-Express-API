@@ -197,7 +197,7 @@ const updateLicense = async (req, res, next) => {
   try {
     const { licenceValidity } = req.body;
     const id = Number(req.params.id);
-    console.log(id);
+    
     const client = await prisma.client.findUnique({
       where: { id },
     });
