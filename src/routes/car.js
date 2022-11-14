@@ -13,4 +13,6 @@ router.post('/create', carController.create);
 
 router.put('/:id/update', carController.update);
 
+router.put('/update-verification/:id', carController.updateVerification);
+
 module.exports = router;
