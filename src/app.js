@@ -5,6 +5,7 @@ const createHttpError = require('http-errors');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
+const cors = require('cors');
 
 // Import auth middleware
 const isAuth = require('./middlewares/isAuth');
@@ -20,6 +21,7 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cors('http://localhost:3000'));
 
 // Use jwt service
 app.use(isAuth());
@@ -40,9 +42,4 @@ app.use(function (_req, _res, next) {
   next(createHttpError(404));
 });
 
-const server = app.listen(1337, () =>
-  console.log(` 
-  🚀 Server ready at: http://localhost:1337`)
-);
-
-module.exports = server;
+module.exports = app;

@@ -20,19 +20,24 @@ const login = async (req, res, next) => {
 
     if (!validPassword) throw createHttpError[403]('Invalid credentials');
 
-    const accessToken = jwt.sign({ userId: user.id, roleId: user.role.id }, process.env.JWT_SECRET, {
-      algorithm: process.env.JWT_ALGORITHM,
-      expiresIn: '1800s',
-    });
+    const accessToken = jwt.sign({ userId: user.id, roleId: user.roleId }, process.env.JWT_SECRET);
 
-    const response = await prisma.user.update({
+    const authenticadedUser = await prisma.user.update({
       where: { email },
+      include: {
+        role: true,
+      },
       data: {
         token: accessToken,
       },
     });
 
-    return res.json(response);
+    return res.json({
+      name: authenticadedUser.name,
+      userId: authenticadedUser.id,
+      role: authenticadedUser.role.name,
+      token: authenticadedUser.token,
+    });
   } catch (error) {
     return next(error);
   }

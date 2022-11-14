@@ -8,7 +8,7 @@ async function main() {
       user: {
         create: {
           email: 'a01704889@tec.mx',
-          password: await hash.hashItem('123456'),
+          password: await hash.hashItem('12345678'),
           name: 'Emilio Padilla Miranda',
           phone: '4622642021',
           token: 'sacaprendeysorprende2022',
@@ -24,7 +24,7 @@ async function main() {
           user: {
             create: {
               email: 'a@gmail.com',
-              password: await hash.hashItem('123456'),
+              password: await hash.hashItem('12345678'),
               name: 'Rodrigo Montúfar',
               phone: '7721234568',
               token: 'sacaprendeysorprende2022',

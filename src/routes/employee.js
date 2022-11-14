@@ -13,4 +13,6 @@ router.get('/', employeeController.getAll);
 
 router.get('/:id', employeeController.get);
 
+router.delete('/:id', employeeController.remove);
+
 module.exports = router;
