@@ -92,7 +92,7 @@ model Car {
   active                  Boolean   @default(true)
   model                   Model     @relation(fields: [modelId], references: [id])
   modelId                 Int
-  client                  Client?   @relation(fields: [clientId], references: [id])
+  client                  Client?   @relation(fields: [clientId], references: [id], onDelete: Cascade)
   clientId                Int
   gps                     Gps?
 }
@@ -105,6 +105,6 @@ model Gps {
   orientation Float?
   velocity    Float?
   active      Boolean @default(true)
-  car         Car     @relation(fields: [carId], references: [id])
+  car         Car     @relation(fields: [carId], references: [id], onDelete: Cascade)
   carId       Int     @unique
 }

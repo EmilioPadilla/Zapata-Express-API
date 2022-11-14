@@ -6,7 +6,7 @@ const prisma = new prismaClient.PrismaClient();
 
 const create = async (req, res, next) => {
   try {
-    const { name, email, password, phone, birthDate, address, sellerId } = req.body;
+    const { name, email, password, phone, birthDate, address, employeeId } = req.body;
 
     const client = await prisma.user.findUnique({
       where: { email },
@@ -34,9 +34,9 @@ const create = async (req, res, next) => {
             },
           },
         },
-        seller: {
+        employee: {
           connect: {
-            id: sellerId,
+            id: employeeId,
           },
         },
         birthDate: new Date(birthDate),
@@ -53,7 +53,7 @@ const create = async (req, res, next) => {
 const getAll = async (_req, res, next) => {
   try {
     const clients = await prisma.client.findMany({
-      include: { user: true },
+      include: { user: true, cars: true },
     });
 
     return res.json(clients);
@@ -74,6 +74,27 @@ const get = async (req, res, next) => {
     if (client == null) throw createHttpError[404]('No client found');
 
     return res.json(client);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const remove = async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+
+    console.log(id);
+    const client = await prisma.client.findUnique({
+      where: { id },
+    });
+
+    if (client == null) throw createHttpError[404]('No client found');
+
+    const response = await prisma.client.delete({
+      where: { id }
+    })
+
+    return res.json(response);
   } catch (error) {
     return next(error);
   }
@@ -179,5 +200,6 @@ module.exports = {
   updatePassword,
   getAll,
   get,
+  remove,
   getClient,
 };
