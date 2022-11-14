@@ -8,7 +8,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 
 // Import auth middleware
-const isAuth = require('./middlewares/isAuth');
+//const isAuth = require('./middlewares/isAuth');
 
 // Import all routers
 const router = require('./routes');
@@ -24,7 +24,7 @@ app.use(cookieParser());
 app.use(cors('http://localhost:3000'));
 
 // Use jwt service
-app.use(isAuth());
+//app.use(isAuth());
 
 // Routers
 app.use('/api/auth', router.authRoutes);

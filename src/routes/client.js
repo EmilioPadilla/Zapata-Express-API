@@ -13,6 +13,9 @@ router.get('/', clientController.getAll);
 
 router.get('/:id', clientController.get);
 
-router.get('/flutter/:id', clientController.getClient)
+router.get('/flutter/:id', clientController.getClient);
+
+router.put('/update-licence/:id', clientController.updateLicense);
+
 
 module.exports = router;
