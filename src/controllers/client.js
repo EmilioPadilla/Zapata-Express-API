@@ -79,6 +79,35 @@ const get = async (req, res, next) => {
   }
 };
 
+const getClient = async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    console.log("AQUI"+ id);
+
+    const client = await prisma.client.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        address: true,
+        birthDate: true,
+        licenceValidity: true,
+        user: {
+          select: {
+            name: true,
+            email: true,
+          },
+        },
+      },
+    })
+
+    if (client == null) throw createHttpError[404]('No client found');
+
+    return res.json(client);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 const update = async (req, res, next) => {
   try {
     const { name, email, phone, birthDate, address } = req.body;
@@ -150,4 +179,5 @@ module.exports = {
   updatePassword,
   getAll,
   get,
+  getClient,
 };
