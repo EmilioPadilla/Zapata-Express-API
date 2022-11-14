@@ -103,7 +103,6 @@ const remove = async (req, res, next) => {
 const getClient = async (req, res, next) => {
   try {
     const id = Number(req.params.id);
-    console.log("AQUI"+ id);
 
     const client = await prisma.client.findUnique({
       where: { id },
@@ -194,6 +193,30 @@ const updatePassword = async (req, res, next) => {
   }
 };
 
+const updateLicense = async (req, res, next) => {
+  try {
+    const { licenceValidity } = req.body;
+    const id = Number(req.params.id);
+    console.log(id);
+    const client = await prisma.client.findUnique({
+      where: { id },
+    });
+
+    if (client == null) throw createHttpError[404]('No client found');
+
+    const response = await prisma.client.update({
+      where: { id },
+      data: {
+        licenceValidity: new Date(licenceValidity),
+      },
+    });
+
+    return res.json(response);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   create,
   update,
@@ -202,4 +225,5 @@ module.exports = {
   get,
   remove,
   getClient,
+  updateLicense,
 };

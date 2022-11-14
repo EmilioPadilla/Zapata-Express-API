@@ -15,6 +15,9 @@ router.get('/:id', clientController.get);
 
 router.delete('/:id', clientController.remove);
 
-router.get('/flutter/:id', clientController.getClient)
+router.get('/flutter/:id', clientController.getClient);
+
+router.put('/update-license/:id', clientController.updateLicense);
+
 
 module.exports = router;
