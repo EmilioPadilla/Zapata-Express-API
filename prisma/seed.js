@@ -3,6 +3,14 @@ const prisma = new PrismaClient();
 const hash = require('../src/utils/hash.js');
 
 async function main() {
+  await prisma.role.createMany({
+    data: [
+      { name: 'cliente' },
+      { name: 'administrador' },
+      { name: 'vendedor' },
+      { name: 'analista' },
+    ]
+  });
   await prisma.client.create({
     data: {
       user: {
@@ -13,8 +21,8 @@ async function main() {
           phone: '4622642021',
           token: 'sacaprendeysorprende2022',
           role: {
-            create: {
-              name: 'cliente',
+            connect: {
+              name: 'cliente'
             },
           },
         },
@@ -29,7 +37,7 @@ async function main() {
               phone: '7721234568',
               token: 'sacaprendeysorprende2022',
               role: {
-                create: {
+                connect: {
                   name: 'vendedor',
                 },
               },
@@ -46,7 +54,7 @@ async function main() {
           model: {
             create: {
               name: 'MG',
-              year: '2022',
+              year: 2022,
               brand: {
                 create: {
                   name: 'MG5',
@@ -71,8 +79,8 @@ async function main() {
       phone: '7721234567',
       token: 'sacaprendeysorprende2022',
       role: {
-        create: {
-          name: 'admin',
+        connect: {
+          name: 'administrador',
         },
       },
     },

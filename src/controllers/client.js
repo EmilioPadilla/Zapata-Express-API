@@ -50,6 +50,48 @@ const create = async (req, res, next) => {
   }
 };
 
+const createCar = async (req, res, next) => {
+  try {
+    const { startingKilometers, image, description, modelId } = req.body;
+    const id = Number(req.params.id);
+
+    const model = await prisma.model.findUnique({
+      where: { id: modelId },
+    });
+
+    if (model == null) throw createHttpError[404]('No model found');
+
+    const client = await prisma.client.findUnique({
+      where: { id },
+    });
+
+    if (client == null) throw createHttpError[404]('No client found');
+
+    const result = await prisma.car.create({
+      data: {
+        startingKilometers,
+        currentKilometers: startingKilometers,
+        image,
+        description,
+        model: {
+          connect: {
+            id: modelId,
+          },
+        },
+        client: {
+          connect: {
+            id,
+          },
+        },
+      },
+    });
+
+    return res.json(result);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 const getAll = async (_req, res, next) => {
   try {
     const clients = await prisma.client.findMany({
@@ -83,7 +125,6 @@ const remove = async (req, res, next) => {
   try {
     const id = Number(req.params.id);
 
-    console.log(id);
     const client = await prisma.client.findUnique({
       where: { id },
     });
@@ -91,8 +132,8 @@ const remove = async (req, res, next) => {
     if (client == null) throw createHttpError[404]('No client found');
 
     const response = await prisma.client.delete({
-      where: { id }
-    })
+      where: { id },
+    });
 
     return res.json(response);
   } catch (error) {
@@ -103,7 +144,7 @@ const remove = async (req, res, next) => {
 const getClient = async (req, res, next) => {
   try {
     const id = Number(req.params.id);
-    console.log("AQUI"+ id);
+    console.log('AQUI' + id);
 
     const client = await prisma.client.findUnique({
       where: { id },
@@ -119,7 +160,7 @@ const getClient = async (req, res, next) => {
           },
         },
       },
-    })
+    });
 
     if (client == null) throw createHttpError[404]('No client found');
 
@@ -196,6 +237,7 @@ const updatePassword = async (req, res, next) => {
 
 module.exports = {
   create,
+  createCar,
   update,
   updatePassword,
   getAll,
