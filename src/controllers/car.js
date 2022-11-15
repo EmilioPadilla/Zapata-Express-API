@@ -186,7 +186,7 @@ const update = async (req, res, next) => {
         where: { id },
       });
   
-      if (car == null) throw createHttpError[404]('No client found');
+      if (car == null) throw createHttpError[404]('No car found');
   
       const response = await prisma.car.update({
         where: { id },
@@ -209,7 +209,7 @@ const update = async (req, res, next) => {
         where: { id },
       });
   
-      if (car == null) throw createHttpError[404]('No client found');
+      if (car == null) throw createHttpError[404]('No car found');
   
       const response = await prisma.car.update({
         where: { id },
@@ -218,6 +218,56 @@ const update = async (req, res, next) => {
         },
       });
   
+      return res.json(response);
+    } catch (error) {
+      return next(error);
+    }
+  };
+
+  const updateMaxVelocity = async (req, res, next) => {
+    try {
+      const { velocityLimit } = req.body;
+      console.log();
+      const id = Number(req.params.id);
+
+      const car = await prisma.car.findUnique({
+        where: { id },
+      });
+
+      if (car == null) throw createHttpError[404]('No car found');
+
+      const response = await prisma.car.update({
+        where: { id },
+        data: {
+          velocityLimit: velocityLimit,
+        },
+      });
+
+      return res.json(response);
+    } catch (error) {
+      return next(error);
+    }
+  };
+
+  const updateGeofence = async (req, res, next) => {
+    try {
+      const { geofenceRadius } = req.body;
+      console.log();
+      const id = Number(req.params.id);
+
+      const car = await prisma.car.findUnique({
+        where: { id },
+      });
+
+      if (car == null) throw createHttpError[404]('No car found');
+
+      const response = await prisma.car.update({
+        where: { id },
+        data: {
+          geofenceRadius: geofenceRadius,
+        },
+      });
+
       return res.json(response);
     } catch (error) {
       return next(error);
@@ -234,4 +284,6 @@ module.exports = {
   updateVerification,
   updatePolicy,
   updateCirculation,
+  updateMaxVelocity,
+  updateGeofence,
 };
