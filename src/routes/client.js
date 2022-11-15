@@ -7,6 +7,8 @@ router.post('/create', clientController.create);
 
 router.put('/:id/update', clientController.update);
 
+router.post('/:id/create-car', clientController.createCar);
+
 router.put('/:id/update-password', clientController.updatePassword);
 
 router.get('/', clientController.getAll);

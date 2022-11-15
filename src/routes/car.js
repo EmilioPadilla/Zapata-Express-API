@@ -9,6 +9,8 @@ router.get('/', carController.getAll);
 
 router.get('/:id', carController.get);
 
+router.delete('/:id', carController.remove);
+
 router.post('/create', carController.create);
 
 router.put('/:id/update', carController.update);

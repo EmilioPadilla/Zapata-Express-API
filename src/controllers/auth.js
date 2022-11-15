@@ -56,9 +56,19 @@ const logout = async (req, res, next) => {
       },
     });
 
-    res.json({
+    return res.json({
       message: 'Successfully logged out',
     });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const getRoles = async (_req, res, next) => {
+  try {
+    const roles = await prisma.role.findMany();
+
+    return res.json(roles);
   } catch (error) {
     return next(error);
   }
@@ -67,4 +77,5 @@ const logout = async (req, res, next) => {
 module.exports = {
   login,
   logout,
+  getRoles,
 };

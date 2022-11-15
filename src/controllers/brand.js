@@ -29,6 +29,26 @@ const get = async (req, res, next) => {
   }
 };
 
+const remove = async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+
+    const brand = await prisma.brand.findUnique({
+      where: { id },
+    });
+
+    if (brand == null) throw createHttpError[404]('No brand found');
+
+    const response = await prisma.brand.delete({
+      where: { id },
+    });
+
+    return res.json(response);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 const create = async (req, res, next) => {
   try {
     const { name } = req.body;
@@ -72,6 +92,7 @@ const update = async (req, res, next) => {
 module.exports = {
   getAll,
   get,
+  remove,
   create,
   update,
 };
