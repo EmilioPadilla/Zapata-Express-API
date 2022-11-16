@@ -56,7 +56,7 @@ const updateCoordinates = async (req, gps, next) => {
         velocity: Number(Velocidad),
       },
     });
-    console.log('200 - Updated coordinates')
+    // console.log('200 - Updated coordinates')
     return '200 - Updated Coordinates';
   } catch (error) {
     return next(error);
@@ -91,9 +91,11 @@ const calculateKmTraveled = async (req, _gps, next) => {
           currentKilometers: car.currentKilometers + km,
         },
       });
-    } else { console.log('WARN - Distance traveled was less than 50m, didnt update'); }
+    } else { 
+      // console.log('WARN - Distance traveled was less than 50m, didnt update'); 
+    }
   
-    console.log('200 - Updated KM traveled');
+    // console.log('200 - Updated KM traveled');
     return '200 - Updated KM traveled';
   } catch (error) {
     return next(error);
