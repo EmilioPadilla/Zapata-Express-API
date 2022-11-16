@@ -6,10 +6,10 @@ const prisma = new prismaClient.PrismaClient();
 
 const create = async (req, res, next) => {
   try {
-    const { name, email, password, phone, officeId } = req.body;
+    const { name, email, password, phone, roleId } = req.body;
 
-    const employee = await prisma.employee.findUnique({
-      where: { user: { email } },
+    const employee = await prisma.user.findUnique({
+      where: { email },
     });
 
     if (employee != null) throw createHttpError[409]('Email already taken');
@@ -23,15 +23,10 @@ const create = async (req, res, next) => {
             password: await hash.hashItem(password),
             phone,
             role: {
-              connectOrCreate: {
-                name: 'vendedor',
-              },
+              connect: {
+                id: roleId,
+              }
             },
-          },
-        },
-        office: {
-          connect: {
-            id: officeId,
           },
         },
       },
@@ -46,7 +41,13 @@ const create = async (req, res, next) => {
 const getAll = async (_req, res, next) => {
   try {
     const employees = await prisma.employee.findMany({
-      include: { user: true },
+      include: {
+        user: {
+          include: {
+            role: true,
+          },
+        },
+      },
     });
 
     return res.json(employees);
@@ -72,9 +73,30 @@ const get = async (req, res, next) => {
   }
 };
 
+const remove = async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+
+    const employee = await prisma.employee.findUnique({
+      where: { id },
+      include: { user: true },
+    });
+
+    if (employee == null) throw createHttpError[404]('No employee found');
+
+    const response = await prisma.employee.delete({
+      where: { id },
+    });
+
+    return res.json(response);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 const update = async (req, res, next) => {
   try {
-    const { name, email, phone, officeId } = req.body;
+    const { name, email, phone, roleId } = req.body;
     const id = Number(req.params.id);
 
     const employee = await prisma.employee.findUnique({
@@ -91,11 +113,11 @@ const update = async (req, res, next) => {
             name,
             email,
             phone,
-          },
-        },
-        office: {
-          connect: {
-            id: officeId,
+            role: {
+              connect: {
+                id: roleId
+              }
+            }
           },
         },
       },
@@ -143,6 +165,7 @@ const updatePassword = async (req, res, next) => {
 module.exports = {
   create,
   update,
+  remove,
   updatePassword,
   getAll,
   get,

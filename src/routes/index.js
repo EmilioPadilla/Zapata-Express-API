@@ -6,6 +6,7 @@ const authRoutes = require('./auth');
 const officeRoutes = require('./office');
 const employeeRoutes = require('./employee');
 const modelRoutes = require('./model');
+const brandRoutes = require('./brand');
 
 module.exports = {
   authRoutes,
@@ -16,4 +17,5 @@ module.exports = {
   officeRoutes,
   employeeRoutes,
   modelRoutes,
+  brandRoutes,
 };

@@ -7,6 +7,8 @@ router.get('/', modelController.getAll);
 
 router.get('/:id', modelController.get);
 
+router.delete('/:id', modelController.remove);
+
 router.post('/create', modelController.create);
 
 router.put('/:id/update', modelController.update);

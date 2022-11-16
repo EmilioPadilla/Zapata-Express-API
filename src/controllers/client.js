@@ -6,10 +6,10 @@ const prisma = new prismaClient.PrismaClient();
 
 const create = async (req, res, next) => {
   try {
-    const { name, email, password, phone, birthDate, address, licenceValidity, sellerId } = req.body;
+    const { name, email, password, phone, birthDate, address, employeeId } = req.body;
 
-    const client = await prisma.client.findUnique({
-      where: { user: { email } },
+    const client = await prisma.user.findUnique({
+      where: { email },
     });
 
     if (client != null) throw createHttpError[409]('Email already taken');
@@ -34,14 +34,55 @@ const create = async (req, res, next) => {
             },
           },
         },
-        seller: {
+        employee: {
           connect: {
-            id: sellerId,
+            id: employeeId,
           },
         },
         birthDate: new Date(birthDate),
         address,
-        licenceValidity: new Date(licenceValidity),
+      },
+    });
+
+    return res.json(result);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const createCar = async (req, res, next) => {
+  try {
+    const { startingKilometers, image, description, modelId } = req.body;
+    const id = Number(req.params.id);
+
+    const model = await prisma.model.findUnique({
+      where: { id: modelId },
+    });
+
+    if (model == null) throw createHttpError[404]('No model found');
+
+    const client = await prisma.client.findUnique({
+      where: { id },
+    });
+
+    if (client == null) throw createHttpError[404]('No client found');
+
+    const result = await prisma.car.create({
+      data: {
+        startingKilometers,
+        currentKilometers: startingKilometers,
+        image,
+        description,
+        model: {
+          connect: {
+            id: modelId,
+          },
+        },
+        client: {
+          connect: {
+            id,
+          },
+        },
       },
     });
 
@@ -54,7 +95,7 @@ const create = async (req, res, next) => {
 const getAll = async (_req, res, next) => {
   try {
     const clients = await prisma.client.findMany({
-      include: { user: true },
+      include: { user: true, cars: true },
     });
 
     return res.json(clients);
@@ -80,9 +121,57 @@ const get = async (req, res, next) => {
   }
 };
 
+const remove = async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+
+    const client = await prisma.client.findUnique({
+      where: { id },
+    });
+
+    if (client == null) throw createHttpError[404]('No client found');
+
+    const response = await prisma.client.delete({
+      where: { id },
+    });
+
+    return res.json(response);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const getClient = async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+
+    const client = await prisma.client.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        address: true,
+        birthDate: true,
+        licenceValidity: true,
+        user: {
+          select: {
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    if (client == null) throw createHttpError[404]('No client found');
+
+    return res.json(client);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 const update = async (req, res, next) => {
   try {
-    const { name, email, phone, birthDate, address, licenceValidity } = req.body;
+    const { name, email, phone, birthDate, address } = req.body;
     const id = Number(req.params.id);
 
     const client = await prisma.client.findUnique({
@@ -103,7 +192,6 @@ const update = async (req, res, next) => {
         },
         birthDate: new Date(birthDate),
         address,
-        licenceValidity: new Date(licenceValidity),
       },
     });
 
@@ -146,10 +234,38 @@ const updatePassword = async (req, res, next) => {
   }
 };
 
+const updateLicense = async (req, res, next) => {
+  try {
+    const { licenceValidity } = req.body;
+    const id = Number(req.params.id);
+    
+    const client = await prisma.client.findUnique({
+      where: { id },
+    });
+
+    if (client == null) throw createHttpError[404]('No client found');
+
+    const response = await prisma.client.update({
+      where: { id },
+      data: {
+        licenceValidity: new Date(licenceValidity),
+      },
+    });
+
+    return res.json(response);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   create,
+  createCar,
   update,
   updatePassword,
   getAll,
   get,
+  remove,
+  getClient,
+  updateLicense,
 };

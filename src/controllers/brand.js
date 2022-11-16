@@ -5,13 +5,9 @@ const prisma = new prismaClient.PrismaClient();
 
 const getAll = async (_req, res, next) => {
   try {
-    const models = await prisma.model.findMany({
-      include: {
-        brand: true,
-      },
-    });
+    const brands = await prisma.brand.findMany();
 
-    return res.json(models);
+    return res.json(brands);
   } catch (error) {
     return next(error);
   }
@@ -21,16 +17,13 @@ const get = async (req, res, next) => {
   try {
     const id = Number(req.params.id);
 
-    const model = await prisma.model.findUnique({
+    const brand = await prisma.brand.findUnique({
       where: { id },
-      include: {
-        brand: true,
-      },
     });
 
-    if (model == null) throw createHttpError[404]('No model found');
+    if (brand == null) throw createHttpError[404]('No brand found');
 
-    return res.json(model);
+    return res.json(brand);
   } catch (error) {
     return next(error);
   }
@@ -40,13 +33,13 @@ const remove = async (req, res, next) => {
   try {
     const id = Number(req.params.id);
 
-    const model = await prisma.model.findUnique({
+    const brand = await prisma.brand.findUnique({
       where: { id },
     });
 
-    if (model == null) throw createHttpError[404]('No model found');
+    if (brand == null) throw createHttpError[404]('No brand found');
 
-    const response = await prisma.model.delete({
+    const response = await prisma.brand.delete({
       where: { id },
     });
 
@@ -58,23 +51,11 @@ const remove = async (req, res, next) => {
 
 const create = async (req, res, next) => {
   try {
-    const { name, year, brandId } = req.body;
+    const { name } = req.body;
 
-    const brand = await prisma.brand.findUnique({
-      where: { id: brandId },
-    });
-
-    if (brand == null) throw createHttpError[404]('brand not found');
-
-    const result = await prisma.model.create({
+    const result = await prisma.brand.create({
       data: {
         name,
-        year,
-        brand: {
-          connect: {
-            id: brandId,
-          },
-        },
       },
     });
 
@@ -86,25 +67,19 @@ const create = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   try {
-    const { name, year, brandId } = req.body;
+    const { name } = req.body;
     const id = Number(req.params.id);
 
-    const model = await prisma.model.findUnique({
+    const brand = await prisma.brand.findUnique({
       where: { id },
     });
 
-    if (model == null) throw createHttpError[404]('No model found');
+    if (brand == null) throw createHttpError[404]('No model found');
 
-    const response = await prisma.model.update({
+    const response = await prisma.brand.update({
       where: { id },
       data: {
         name,
-        year,
-        brand: {
-          connect: {
-            id: brandId,
-          },
-        },
       },
     });
 
