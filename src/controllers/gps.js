@@ -36,6 +36,7 @@ const getGpsCoordinates = async (_req, res, next) => {
     // c) Update Car.km by adding km calculated in b)
     await calculateKmTraveled(_req, gps, next);
 
+    console.log(_req.body.Alias);
     return res.json(_req.body);
   } catch (error) {
     return next(error);
