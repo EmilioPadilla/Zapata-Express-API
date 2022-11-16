@@ -19,10 +19,10 @@ async function main() {
           password: await hash.hashItem('12345678'),
           name: 'Emilio Padilla Miranda',
           phone: '4622642021',
-          token: 'sacaprendeysorprende2022',
+          token: '',
           role: {
             connect: {
-              name: 'cliente'
+              name: 'cliente',
             },
           },
         },
@@ -35,7 +35,7 @@ async function main() {
               password: await hash.hashItem('12345678'),
               name: 'Rodrigo Montúfar',
               phone: '7721234568',
-              token: 'sacaprendeysorprende2022',
+              token: '',
               role: {
                 connect: {
                   name: 'vendedor',
@@ -64,7 +64,7 @@ async function main() {
           },
           gps: {
             create: {
-              alias: 'MG-5 Emilio',
+              alias: 'MG UPW173C',
             },
           },
         },

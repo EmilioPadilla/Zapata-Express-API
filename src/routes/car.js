@@ -23,6 +23,4 @@ router.put('/update-circulation/:id', carController.updateCirculation);
 
 router.put('/update-velocity/:id', carController.updateMaxVelocity);
 
-router.put('/update-geofence/:id', carController.updateGeofence);
-
 module.exports = router;
