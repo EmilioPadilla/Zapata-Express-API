@@ -13,13 +13,14 @@ async function main() {
   });
   await prisma.client.create({
     data: {
+      birthDate: new Date(),
+      address: 'Tu cora',
       user: {
         create: {
           email: 'a01704889@tec.mx',
           password: await hash.hashItem('12345678'),
           name: 'Emilio Padilla Miranda',
           phone: '4622642021',
-          address: 'Tu cora',
           token: '',
           role: {
             connect: {
@@ -36,7 +37,6 @@ async function main() {
               password: await hash.hashItem('12345678'),
               name: 'Rodrigo Montúfar',
               phone: '7721234568',
-              address: 'Tu cora',
               token: '',
               role: {
                 connect: {
@@ -75,6 +75,8 @@ async function main() {
   });
     await prisma.client.create({
       data: {
+        birthDate: new Date(),
+        address: 'Tu cora',
         user: {
           create: {
             email: 'otramat@tec.mx',
@@ -82,7 +84,6 @@ async function main() {
             name: 'El del Jetta',
             phone: '4622642021',
             token: '',
-            address: 'Tu cora',
             role: {
               connect: {
                 name: 'cliente',
@@ -99,7 +100,6 @@ async function main() {
                 name: 'Juan Pablo que tiene cliente Jetta',
                 phone: '7721234568',
                 token: '',
-                address: 'Tu cora',
                 role: {
                   connect: {
                     name: 'vendedor',
@@ -137,6 +137,8 @@ async function main() {
     });
     await prisma.client.create({
       data: {
+        birthDate: new Date(),
+        address: 'Tu cora',
         user: {
           create: {
             email: 'unavezmas@tec.mx',
@@ -144,7 +146,6 @@ async function main() {
             name: 'El del Toyota',
             phone: '4622642021',
             token: '',
-            address: 'Tu cora',
             role: {
               connect: {
                 name: 'cliente',
@@ -161,7 +162,6 @@ async function main() {
                 name: 'Juan Pedro que tiene cliente Toyota',
                 phone: '7721234568',
                 token: '',
-                address: 'Tu cora',
                 role: {
                   connect: {
                     name: 'vendedor',
@@ -199,13 +199,14 @@ async function main() {
     });
     await prisma.client.create({
       data: {
+        birthDate: new Date(),
+        address: 'Tu cora',
         user: {
           create: {
             email: 'ydenuez@tec.mx',
             password: await hash.hashItem('12345678'),
             name: 'El del March',
             phone: '4622642021',
-            address: 'Tu cora',
             token: '',
             role: {
               connect: {
@@ -222,7 +223,6 @@ async function main() {
                 password: await hash.hashItem('12345678'),
                 name: 'Juan Jose que tiene cliente March',
                 phone: '7721234568',
-                address: 'Tu cora',
                 token: '',
                 role: {
                   connect: {
@@ -266,7 +266,6 @@ async function main() {
       name: 'Emi Pérez',
       phone: '7721234567',
       token: 'sacaprendeysorprende2022',
-      address: 'Tu cora',
       role: {
         connect: {
           name: 'administrador',
