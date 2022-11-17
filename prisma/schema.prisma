@@ -99,17 +99,17 @@ model Car {
 }
 
 model Gps {
-  id              Int     @id @default(autoincrement())
-  alias           String  @unique
-  latitude        Float?
-  longitude       Float?
-  orientation     Float?
-  velocity        Float?
-  active          Boolean @default(true)
-  geofenceRadius  Float     @default(150)
-  geofenceLat     Float?
-  geofencelong    Float?
-  geofenceActive  Boolean   @default(false)
-  car             Car     @relation(fields: [carId], references: [id], onDelete: Cascade)
-  carId           Int     @unique
+  id                  Int     @id @default(autoincrement())
+  alias               String  @unique
+  latitude            Float?
+  longitude           Float?
+  orientation         Float?
+  velocity            Float?
+  active              Boolean @default(true)
+  geofenceRadiusKm  Float?
+  geofenceLat         Float?
+  geofenceLong        Float?
+  geofenceActive      Boolean   @default(false)
+  car                 Car     @relation(fields: [carId], references: [id], onDelete: Cascade)
+  carId               Int     @unique
 }

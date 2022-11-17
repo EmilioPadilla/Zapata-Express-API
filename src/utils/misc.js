@@ -14,25 +14,7 @@ function deg2rad(deg) {
   return deg * (Math.PI / 180);
 }
 
-// TODO This doesn't work yet
-function calculateDistance(longitude1, latitude1, longitude2, latitude2) {
-    let c = 
-        Math.sin(Math.toRadians(latitude1)) *
-        Math.sin(Math.toRadians(latitude2)) +
-            Math.cos(Math.toRadians(latitude1)) *
-            Math.cos(Math.toRadians(latitude2)) *
-            Math.cos(Math.toRadians(longitude2) - 
-                Math.toRadians(longitude1));
-    c = c > 0 ? Math.min(1, c) : Math.max(-1, c);
-    return 3959 * 1.609 * 1000 * Math.acos(c);
-}
-
-function checkInside(circle, longitude, latitude) {
-        return calculateDistance(
-            circle.getLongitude(), circle.getLatitude(), longitude, latitude
-        ) < circle.getRadius();}
 
 module.exports = {
-  getDistanceFromLatLonInKm,
-  checkInside
+  getDistanceFromLatLonInKm
 };

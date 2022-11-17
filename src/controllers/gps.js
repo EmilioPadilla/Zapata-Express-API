@@ -25,8 +25,27 @@ const getGpsCoordinates = async (_req, res, next) => {
       throw createHttpError[404]('getCoord - No GPS with given alias found', error);  
     }
 
-    if (gps.geofenceActive) {
-      // Logic for calculating if outside geofence
+    if (gps.geofenceActive && gps.geofenceRadiusKm) {
+      // Set center point in geofence circle
+      const { Latitud, Longitud } = _req.body;
+      if (!gps.geofenceLat || !gps.geofenceLong) {
+        await prisma.gps.update({
+          where: { id: gps.id },
+          data: {
+            geofenceLat: Number(Latitud),
+            geofenceLong: Number(Longitud),
+          },
+        });
+      }
+
+      // If center point defined, just check if gps not exiting geofence
+      const distanceBetweenLocations = utils.getDistanceFromLatLonInKm(Number(Latitud), Number(Longitud), gps.geofenceLat, gps.geofenceLong);
+      if (distanceBetweenLocations > gps.geofenceRadiusKm) {
+        // Push notifications or what?
+        console.log('CAR=', gps.alias, ' IS OUTSIDE GEOFENCE by ', distanceBetweenLocations, 'km');
+      } else {
+        console.log(gps.alias, ' inside ', gps.geofenceRadiusKm, ' geofence by', distanceBetweenLocations, 'km');
+      }
     }
 
     // a) Save lat, long, orient, vel in GPS table
@@ -36,7 +55,11 @@ const getGpsCoordinates = async (_req, res, next) => {
     // c) Update Car.km by adding km calculated in b)
     await calculateKmTraveled(_req, gps, next);
 
-    console.log(_req.body.Alias);
+    console.log({
+      "alias": _req.body.Alias,
+      "lat": _req.body.Latitud,
+      "long": _req.body.Longitud
+    });
     return res.json(_req.body);
   } catch (error) {
     return next(error);
@@ -83,7 +106,7 @@ const calculateKmTraveled = async (req, _gps, next) => {
       throw createHttpError[404]('CalcKms - No Car related to GPS', error);
     }
 
-    const km = utils.getDistanceFromLatLonInKm(Latitud, Longitud, gps.latitude, gps.longitude);
+    const km = utils.getDistanceFromLatLonInKm(Number(Latitud), Number(Longitud), gps.latitude, gps.longitude);
     if (km > 0.05) {
       await prisma.car.update({
         where: { id: car.id },
@@ -91,7 +114,7 @@ const calculateKmTraveled = async (req, _gps, next) => {
           currentKilometers: car.currentKilometers + km,
         },
       });
-    } else { console.log('WARN - Distance traveled was less than 50m, didnt update'); }
+    } else { console.log('WARN - Distance traveled less than 50m, didnt update km traveled'); }
   
     console.log('200 - Updated KM traveled');
     return '200 - Updated KM traveled';
@@ -102,12 +125,13 @@ const calculateKmTraveled = async (req, _gps, next) => {
 
 const activateValetMode = async (req, res, next) => {
   try {
-    const { Alias } = req.body;
+    const { Alias, geofenceRadiusKm } = req.body;
 
     const response = await prisma.gps.update({
       where: { alias: Alias },
       data: {
-        geofenceActive: true
+        geofenceActive: true,
+        geofenceRadiusKm
       },
     });
     return res.json(response);
@@ -124,6 +148,9 @@ const deactivateValetMode = async (req, res, next) => {
       where: { alias: Alias },
       data: {
         geofenceActive: false,
+        geofenceLat: null,
+        geofenceLong: null,
+        geofenceRadiusKm: null,
       },
     });
     return res.json(response);
@@ -134,14 +161,14 @@ const deactivateValetMode = async (req, res, next) => {
 
 const updateGeofence = async (req, res, next) => {
   try {
-    const { Alias, geofenceRadius } = req.body;
-    if (!Alias || !geofenceRadius) {
-      throw createHttpError[404]('No Alias or geofenceRadius provided');  
+    const { Alias, geofenceRadiusKm } = req.body;
+    if (!Alias || !geofenceRadiusKm) {
+      throw createHttpError[404]('No Alias or geofenceRadiusKm provided');  
     }
     const gps = await prisma.gps.update({
       where: { alias: Alias },
       data: {
-        geofenceRadius: geofenceRadius,
+        geofenceRadiusKm: geofenceRadiusKm,
       },
     });
 
