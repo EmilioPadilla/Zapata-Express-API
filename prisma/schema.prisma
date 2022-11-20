@@ -113,3 +113,8 @@ model Gps {
   car                 Car     @relation(fields: [carId], references: [id], onDelete: Cascade)
   carId               Int     @unique
 }
+
+model Image {
+	id		Int		@id @default(autoincrement())
+	image 	Bytes 
+}
