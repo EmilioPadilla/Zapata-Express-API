@@ -36,6 +36,7 @@ app.use('/api/cars', router.carRoutes);
 app.use('/api/v1/gps', router.gpsRoutes);
 app.use('/api/models', router.modelRoutes);
 app.use('/api/brands', router.brandRoutes);
+app.use('/api/images', router.imagesRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (_req, _res, next) {
