@@ -13,6 +13,8 @@ async function main() {
   });
   await prisma.client.create({
     data: {
+      birthDate: new Date(),
+      address: 'Tu cora',
       user: {
         create: {
           email: 'a01704889@tec.mx',
@@ -73,6 +75,8 @@ async function main() {
   });
     await prisma.client.create({
       data: {
+        birthDate: new Date(),
+        address: 'Tu cora',
         user: {
           create: {
             email: 'otramat@tec.mx',
@@ -133,6 +137,8 @@ async function main() {
     });
     await prisma.client.create({
       data: {
+        birthDate: new Date(),
+        address: 'Tu cora',
         user: {
           create: {
             email: 'unavezmas@tec.mx',
@@ -193,6 +199,8 @@ async function main() {
     });
     await prisma.client.create({
       data: {
+        birthDate: new Date(),
+        address: 'Tu cora',
         user: {
           create: {
             email: 'ydenuez@tec.mx',
