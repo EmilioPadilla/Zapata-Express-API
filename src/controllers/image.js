@@ -1,24 +1,37 @@
 const prismaClient = require('@prisma/client');
 const createHttpError = require('http-errors');
 const prisma = new prismaClient.PrismaClient();
+const utils = require('@utils/misc');
 
-
-const save = async (req, res) => {
+const save = async (req, res, next) => {
 	try {
-		console.log('req.file.buffer', req);
-		const result = await prisma.image.create({
-			data: {
-				image: req.file.buffer,
-			},
+		const publicImages = utils.findFileName('public/images', req.file.originalname);
+		// const carId = Number(req.params.id);
+		const car = await prisma.car.findUnique({
+			where: { id: Number(req.params.id) },
 		});
 
+		if (car == null) throw createHttpError[404]('No car found');
+
+		const result = await prisma.image.create({
+			data: {
+				alias: publicImages[0],
+				carId: Number(req.params.id),
+				// car: {
+				// 	connect: {
+				// 		id: car,
+				// 	},
+				// },
+			},
+		});
+		// res.send();
 		return res.json(result);
 	} catch (error) {
-		return res.status(400).send(error);
+		return next(error);
 	}
 };
 
-const remove = async (req, res) => {
+const remove = async (req, res, next) => {
 	try {
 		const id = Number(req.params.id);
 
@@ -34,7 +47,7 @@ const remove = async (req, res) => {
 
 		return res.json(response);
 	} catch (error) {
-		res.status(400).send(error);
+		return next(error);
 	}
 };
 

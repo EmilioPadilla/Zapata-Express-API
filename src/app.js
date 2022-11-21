@@ -23,6 +23,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors('http://localhost:3000'));
 
+// Serve stastic images
+app.use(express.static('public'))
+
 // Use jwt service
 app.use(isAuth());
 

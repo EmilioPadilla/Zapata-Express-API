@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
   var R = 6371; // Radius of the earth in km
   var dLat = deg2rad(lat2 - lat1); // deg2rad below
@@ -14,7 +16,18 @@ function deg2rad(deg) {
   return deg * (Math.PI / 180);
 }
 
+function findFileName (directory, fileName) {
+	if (!fs.existsSync(directory)) {
+        console.log("no dir ", directory);
+        return;
+    }
+
+    const files = fs.readdirSync(directory);
+	return files.filter(s => s.includes(fileName));
+}
+
 
 module.exports = {
-  getDistanceFromLatLonInKm
+  getDistanceFromLatLonInKm,
+  findFileName
 };
