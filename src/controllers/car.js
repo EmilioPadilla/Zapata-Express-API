@@ -73,7 +73,8 @@ const getByClientId = async (req, res, next) => {
             brand: true,
           },
         },
-		image: true
+		image: true,
+		gps: true
       },
     });
 
