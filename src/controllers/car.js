@@ -12,6 +12,7 @@ const getAll = async (_req, res, next) => {
             brand: true,
           },
         },
+		image: {}
       },
     });
 
@@ -27,6 +28,9 @@ const get = async (req, res, next) => {
 
     const car = await prisma.car.findUnique({
       where: { id },
+		include: {
+			image: {}
+		}
     });
 
     if (car == null) throw createHttpError[404]('No car found');
@@ -69,6 +73,7 @@ const getByClientId = async (req, res, next) => {
             brand: true,
           },
         },
+		image: true
       },
     });
 
