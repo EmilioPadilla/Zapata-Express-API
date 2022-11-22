@@ -17,14 +17,9 @@ const save = async (req, res, next) => {
 			data: {
 				alias: publicImages[0],
 				carId: Number(req.params.id),
-				// car: {
-				// 	connect: {
-				// 		id: car,
-				// 	},
-				// },
 			},
 		});
-		// res.send();
+
 		return res.json(result);
 	} catch (error) {
 		return next(error);
@@ -41,6 +36,8 @@ const remove = async (req, res, next) => {
 
 		if (image == null) throw createHttpError[404]('No image found');
 
+		utils.deleteFile('public/images/'+image.alias);
+
 		const response = await prisma.image.delete({
 			where: { id },
 		});
@@ -50,6 +47,37 @@ const remove = async (req, res, next) => {
 		return next(error);
 	}
 };
+
+const update = async (req, res, next) => {
+	try {
+		const id = Number(req.params.id);
+
+		const car = await prisma.car.findUnique({
+			where: { id },
+			include: {
+				image: true,
+			},
+		});
+
+		if (car == null) throw createHttpError[404]('No car found');
+
+		const publicImages = utils.findFileName('public/images', req.file.originalname);
+
+		utils.deleteFile('public/images/'+car.image.alias);
+
+		const result = await prisma.image.update({
+			where: { carId: car.id },
+			data: {
+				alias: publicImages[0],
+				carId: car.id
+			},
+		});
+
+		return res.json(result);
+	} catch (error) {
+		return next(error);
+	}
+}
 
 const get = async (req, res, next) => {
 	try {
@@ -73,6 +101,7 @@ const get = async (req, res, next) => {
 module.exports = {
 	save,
 	remove,
-	get
+	get,
+	update
   };
   
