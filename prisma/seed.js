@@ -51,7 +51,11 @@ async function main() {
         create: {
           startingKilometers: 1000,
           currentKilometers: 2000,
-          image: '1',
+          image: {
+			create: {
+				alias: '1669074213676-MG5.png'
+			}
+		},
           description: 'aire, pantalla, gps',
           model: {
             create: {
@@ -113,7 +117,11 @@ async function main() {
           create: {
             startingKilometers: 1000,
             currentKilometers: 2000,
-            image: '1',
+            image: {
+				create: {
+					alias: '1669074245735-jetta.png'
+				}
+			},
             description: 'aire, pantalla, gps',
             model: {
               create: {
@@ -175,7 +183,11 @@ async function main() {
           create: {
             startingKilometers: 1000,
             currentKilometers: 2000,
-            image: '1',
+            image: {
+				create: {
+					alias: '1669074280912-prius.png'
+				}
+			},
             description: 'aire, pantalla, gps',
             model: {
               create: {
@@ -237,7 +249,11 @@ async function main() {
           create: {
             startingKilometers: 1000,
             currentKilometers: 2000,
-            image: '1',
+            image: {
+				create: {
+					alias: '1669074307875-march.png'
+				}
+			},
             description: 'aire, pantalla, gps',
             model: {
               create: {
