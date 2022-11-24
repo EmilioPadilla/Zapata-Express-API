@@ -11,4 +11,6 @@ router.post('/activate', gpsController.activateValetMode);
 
 router.post('/deactivate', gpsController.deactivateValetMode);
 
+router.get('/get/:id', gpsController.get);
+
 module.exports = router;
