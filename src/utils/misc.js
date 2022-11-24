@@ -26,8 +26,13 @@ function findFileName (directory, fileName) {
 	return files.filter(s => s.includes(fileName));
 }
 
+function deleteFile (path) {
+	fs.unlinkSync(path);
+}
+
 
 module.exports = {
   getDistanceFromLatLonInKm,
-  findFileName
+  findFileName,
+  deleteFile
 };

@@ -4,16 +4,6 @@ const imageController = require('@controllers/image');
 
 const router = express.Router();
 
-//multer options
-// const upload = multer({
-// 	fileFilter(req, file, cb) {
-// 	if (!file.originalname.match(/\.(png|jpg|jpeg|heic)$/)){
-// 		cb(new Error('Please upload an image.'))
-// 	}
-// 	cb(undefined, true)
-// 	}
-// });
-
 const storage = multer.diskStorage({
 	fileFilter (req, file, cb) {
 		if (!file.originalname.match(/\.(png|jpg|jpeg|heic)$/)){
@@ -40,6 +30,8 @@ router.post('/upload/:id', upload.single('image'), imageController.save);
 
 router.delete('/:id', imageController.remove);
 
-router.get('/get/:id', imageController.get)
+router.get('/get/:id', imageController.get);
+
+router.put('/update/:id', upload.single('image'), imageController.update);
 
 module.exports = router;
