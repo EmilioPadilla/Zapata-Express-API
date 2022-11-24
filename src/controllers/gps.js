@@ -196,9 +196,27 @@ const updateGeofence = async (req, res, next) => {
   }
 };
 
+const get = async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    console.log(id);
+
+    const gps = await prisma.gps.findUnique({
+      where: { id }
+    });
+
+    if (gps == null) throw createHttpError[404]('No gps found');
+
+    return res.json(gps);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   getGpsCoordinates,
   activateValetMode,
   deactivateValetMode,
   updateGeofence,
+  get,
 };
