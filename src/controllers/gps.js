@@ -125,13 +125,24 @@ const calculateKmTraveled = async (req, _gps, next) => {
 
 const activateValetMode = async (req, res, next) => {
   try {
-    const { Alias, geofenceRadiusKm } = req.body;
+    const { geofenceRadiusKm } = req.body;
+
+	const id = Number(req.params.id);
+
+	const car = await prisma.car.findUnique({
+		where: { id },
+		include: {
+			gps: true,
+		},
+	});
 
     const response = await prisma.gps.update({
-      where: { alias: Alias },
+      where: { carId: car.id },
       data: {
         geofenceActive: true,
-        geofenceRadiusKm
+        geofenceRadiusKm,
+		geofenceLat: car.gps.latitude,
+		geofenceLong: car.gps.geofenceLong
       },
     });
     return res.json(response);
@@ -142,10 +153,17 @@ const activateValetMode = async (req, res, next) => {
 
 const deactivateValetMode = async (req, res, next) => {
   try {
-    const { Alias } = req.body;
+	const id = Number(req.params.id);
+
+	const car = await prisma.car.findUnique({
+		where: { id },
+		include: {
+			gps: true,
+		},
+	});
 
     const response = await prisma.gps.update({
-      where: { alias: Alias },
+      where: { carId: car.id },
       data: {
         geofenceActive: false,
         geofenceLat: null,

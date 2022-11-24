@@ -7,8 +7,8 @@ router.post('/api/gps', gpsController.getGpsCoordinates);
 
 router.put('/update-geofence', gpsController.updateGeofence);
 
-router.post('/activate', gpsController.activateValetMode);
+router.post('/activate/:id', gpsController.activateValetMode);
 
-router.post('/deactivate', gpsController.deactivateValetMode);
+router.post('/deactivate/:id', gpsController.deactivateValetMode);
 
 module.exports = router;
