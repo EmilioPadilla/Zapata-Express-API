@@ -1,3 +1,4 @@
+// US Web 4-7 US Movil 6 
 const prismaClient = require('@prisma/client');
 const createHttpError = require('http-errors');
 const hash = require('@utils/hash.js');
