@@ -106,7 +106,7 @@ model Gps {
   orientation         Float?
   velocity            Float?
   active              Boolean 	@default(true)
-  geofenceRadiusKm    Float?
+  geofenceRadiusKm    Float?	@default(5)
   geofenceLat         Float?
   geofenceLong        Float?
   geofenceActive      Boolean   @default(false)

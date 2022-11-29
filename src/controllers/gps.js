@@ -142,7 +142,7 @@ const activateValetMode = async (req, res, next) => {
         geofenceActive: true,
         geofenceRadiusKm,
 		geofenceLat: car.gps.latitude,
-		geofenceLong: car.gps.geofenceLong
+		geofenceLong: car.gps.longitude
       },
     });
     return res.json(response);
