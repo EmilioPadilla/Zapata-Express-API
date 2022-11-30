@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('/api/gps', gpsController.getGpsCoordinates);
 
-router.put('/update-geofence', gpsController.updateGeofence);
+router.put('/update-geofence/:id', gpsController.updateGeofence);
 
 router.post('/activate/:id', gpsController.activateValetMode);
 

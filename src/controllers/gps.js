@@ -168,7 +168,6 @@ const deactivateValetMode = async (req, res, next) => {
         geofenceActive: false,
         geofenceLat: null,
         geofenceLong: null,
-        geofenceRadiusKm: null,
       },
     });
     return res.json(response);
@@ -179,18 +178,24 @@ const deactivateValetMode = async (req, res, next) => {
 
 const updateGeofence = async (req, res, next) => {
   try {
-    const { Alias, geofenceRadiusKm } = req.body;
-    if (!Alias || !geofenceRadiusKm) {
-      throw createHttpError[404]('No Alias or geofenceRadiusKm provided');  
-    }
-    const gps = await prisma.gps.update({
-      where: { alias: Alias },
-      data: {
-        geofenceRadiusKm: geofenceRadiusKm,
-      },
-    });
+	const id = Number(req.params.id);
+	const { geofenceRadiusKm } = req.body;
 
-    return res.json(gps);
+	const car = await prisma.car.findUnique({
+		where: { id },
+		include: {
+			gps: true,
+		},
+	});
+
+	const response = await prisma.gps.update({
+		where: { carId: car.id },
+		data: {
+			geofenceRadiusKm: geofenceRadiusKm,
+		},
+	});
+
+	return res.json(response);
   } catch (error) {
     return next('Could not update geofence', error);
   }
