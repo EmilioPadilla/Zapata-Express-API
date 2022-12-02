@@ -39,28 +39,17 @@ model User {
   name      String
   phone     String?
   token     String?
-  role      Role       @relation(fields: [idRole], references: [id])
-  idRole    Int
+  active    Boolean    @default(true)
+  role      Role       @relation(fields: [roleId], references: [id])
+  roleId    Int
   clients   Client[]
-  userId    Int?
-  employees Employee[]
-}
-
-model Office {
-  id        Int        @id @default(autoincrement())
-  name      String     @unique
-  address   String
-  state     String
-  city      String
   employees Employee[]
 }
 
 model Employee {
-  user     User     @relation(fields: [id], references: [id])
-  id       Int      @id
-  office   Office   @relation(fields: [officeId], references: [id])
-  officeId Int
-  clients  Client[]
+  user    User     @relation(fields: [id], references: [id])
+  id      Int      @id
+  clients Client[]
 }
 
 model Client {
@@ -70,8 +59,8 @@ model Client {
   address         String?
   licenceValidity DateTime?
   cars            Car[]
-  seller          Employee  @relation(fields: [sellerId], references: [id])
-  sellerId        Int
+  employee        Employee  @relation(fields: [employeeId], references: [id])
+  employeeId      Int
 }
 
 model Brand {
@@ -84,35 +73,50 @@ model Model {
   id      Int    @id @default(autoincrement())
   name    String
   year    Int
-  brand   Brand  @relation(fields: [brandId], references: [id])
+  brand   Brand  @relation(fields: [brandId], references: [id], onDelete: Cascade)
   brandId Int
   cars    Car[]
+
+  @@unique([name, year], map: "nameYear")
 }
 
 model Car {
   id                      Int       @id @default(autoincrement())
-  currentKilometers       Int?
-  geofenceRadius          Float     @default(150)
+  startingKilometers      Float
+  currentKilometers       Float?
   velocityLimit           Float     @default(20)
-  image                   String
+  image                   Image?
   description             String?
   insurancePolicyValidity DateTime?
   verificationValidity    DateTime?
-  circulationCardValidity DateTime
-  model                   Model     @relation(fields: [modelId], references: [id])
+  circulationCardValidity DateTime?
+  active                  Boolean   @default(true)
+  model                   Model     @relation(fields: [modelId], references: [id], onDelete: Cascade)
   modelId                 Int
-  client                  Client?   @relation(fields: [clientId], references: [id])
+  client                  Client?   @relation(fields: [clientId], references: [id], onDelete: Cascade)
   clientId                Int
   gps                     Gps?
 }
 
 model Gps {
-  id          Int    @id @default(autoincrement())
-  alias       String @unique
-  latitude    Float?
-  longitude   Float?
-  orientation Float?
-  velocity    Float?
-  car         Car    @relation(fields: [carId], references: [id])
-  carId       Int    @unique
+  id                  Int     	@id @default(autoincrement())
+  alias               String  	@unique
+  latitude            Float?
+  longitude           Float?
+  orientation         Float?
+  velocity            Float?
+  active              Boolean 	@default(true)
+  geofenceRadiusKm    Float?	@default(5)
+  geofenceLat         Float?
+  geofenceLong        Float?
+  geofenceActive      Boolean   @default(false)
+  car                 Car     	@relation(fields: [carId], references: [id], onDelete: Cascade)
+  carId               Int     	@unique
+}
+
+model Image {
+	id		Int		@id @default(autoincrement())
+	alias 	String	@unique
+	car    	Car? 	@relation(fields: [carId], references: [id], onDelete: Cascade)
+	carId	Int?	@unique
 }

@@ -22,7 +22,11 @@ const jwt = () => {
     isRevoked,
     algorithms: [process.env.JWT_ALGORITHM],
   }).unless({
-    path: ['api/auth/login'],
+    path: [
+      { url: '/api/auth/login', methods: ['POST', 'OPTIONS'] },
+      { url: '/api/users/create', methods: ['POST', 'OPTIONS'] },
+      { url: '/api/v1/gps/api/gps', methods: ['POST', 'OPTIONS'] }
+    ],
   });
 };
 

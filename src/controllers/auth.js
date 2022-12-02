@@ -20,19 +20,55 @@ const login = async (req, res, next) => {
 
     if (!validPassword) throw createHttpError[403]('Invalid credentials');
 
-    const accessToken = jwt.sign({ userId: user.id, roleId: user.role.id }, process.env.JWT_SECRET, {
-      algorithm: process.env.JWT_ALGORITHM,
-      expiresIn: '1d',
-    });
+    const accessToken = jwt.sign({ userId: user.id, roleId: user.roleId }, process.env.JWT_SECRET);
 
-    const response = await prisma.user.update({
+    const authenticadedUser = await prisma.user.update({
       where: { email },
+      include: {
+        role: true,
+      },
       data: {
         token: accessToken,
       },
     });
 
-    return res.json(response);
+    return res.json({
+      name: authenticadedUser.name,
+      userId: authenticadedUser.id,
+      role: authenticadedUser.role.name,
+      token: authenticadedUser.token,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const logout = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+
+    if (email == null) throw createHttpError[403]('Invalid credentials');
+
+    await prisma.user.update({
+      where: { email },
+      data: {
+        token: null,
+      },
+    });
+
+    return res.json({
+      message: 'Successfully logged out',
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const getRoles = async (_req, res, next) => {
+  try {
+    const roles = await prisma.role.findMany();
+
+    return res.json(roles);
   } catch (error) {
     return next(error);
   }
@@ -40,4 +76,6 @@ const login = async (req, res, next) => {
 
 module.exports = {
   login,
+  logout,
+  getRoles,
 };

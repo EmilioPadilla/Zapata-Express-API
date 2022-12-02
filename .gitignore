@@ -1,7 +1,6 @@
 
 .vscode
 target/
-bin/
 *.TMP
 **/temp/*
 **/npm-debug.log

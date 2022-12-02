@@ -5,6 +5,9 @@ const carRoutes = require('./car');
 const authRoutes = require('./auth');
 const officeRoutes = require('./office');
 const employeeRoutes = require('./employee');
+const modelRoutes = require('./model');
+const brandRoutes = require('./brand');
+const imagesRoutes = require('./images');
 
 module.exports = {
   authRoutes,
@@ -14,4 +17,7 @@ module.exports = {
   carRoutes,
   officeRoutes,
   employeeRoutes,
+  modelRoutes,
+  brandRoutes,
+  imagesRoutes
 };
